@@ -23,16 +23,6 @@ Este repositorio se apoya fuertemente en las herramientas desarrolladas por la c
 
 ---
 
-## 🚀 Estado del Proyecto
-
-Actualmente el proyecto se encuentra en una **fase muy temprana (Preparación e Ingeniería Inversa)**. 
-- [x] Configuración del entorno y herramientas base.
-- [ ] Primer escaneo analítico de la ROM de JFG.
-- [ ] Generación del código fuente base en C++.
-- [ ] Solución de bloqueos de arranque (Stubs de hardware).
-
----
-
 ## ⚖️ Nota Legal
 
 Este repositorio **no incluye** ni distribuirá archivos protegidos por derechos de autor, activos del juego (gráficos, música, niveles) ni copias de la ROM original. Para compilar y ejecutar este port, el usuario final debe proporcionar su propia copia legal de la ROM de *Jet Force Gemini*.
