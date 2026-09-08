@@ -1,0 +1,6 @@
+[inputs]
+rom_path = "rom/JetForceGemini.z64"
+elf_path = ""
+
+[outputs]
+c_output_path = "src"

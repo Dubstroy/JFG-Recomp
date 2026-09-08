@@ -1,0 +1,6 @@
+[input]
+elf_path = "../Jet-Force-Gemini/build/jfg.us.elf"
+rom_file_path = "rom/JetForceGemini.z64"
+output_func_path = "src"
+relocatable_sections_path = "relocatable_sections.txt"
+jfg_reloc_dir = "../Jet-Force-Gemini/assets/overlays"

@@ -1,0 +1,1340 @@
+========================================================================
+JET FORCE GEMINI - ANALISIS PROFUNDO DEL BOOT
+========================================================================
+ROM size:       33,554,432 bytes
+Boot:           0x0040-0x0FFF
+Boot size:      4032 bytes
+RAM base:       0x80000400
+
+[1] INSTRUCCIONES MIPS DETECTADAS
+
+Instrucciones individuales reconocidas: 921
+
+[2] REGIONES DE CODIGO
+Region 01: ROM 0x0040-0x0DE7 | RAM 0x80000400-0x800011A4 | 3496 bytes
+Region 02: ROM 0x0DFC-0x0E17 | RAM 0x800011BC-0x800011D4 | 28 bytes
+Region 03: ROM 0x0E2C-0x0F0B | RAM 0x800011EC-0x800012C8 | 224 bytes
+Region 04: ROM 0x0F20-0x0FFF | RAM 0x800012E0-0x800013BC | 224 bytes
+
+[3] CONTROL FLOW
+
+ROM 0x0074 | RAM 0x80000434 | bltz     $ra, 0x80000478
+ROM 0x00A8 | RAM 0x80000468 | j        0x800011b8
+ROM 0x00B0 | RAM 0x80000470 | jr       $t3
+ROM 0x01C0 | RAM 0x80000580 | bne      $s0, $s1, 0x80000598
+ROM 0x01E8 | RAM 0x800005A8 | jal      0x8400087c
+ROM 0x0224 | RAM 0x800005E4 | bne      $t3, $t0, 0x80000618
+ROM 0x0280 | RAM 0x80000640 | bne      $t1, $t0, 0x80000668
+ROM 0x02F4 | RAM 0x800006B4 | bne      $t1, $t0, 0x80000710
+ROM 0x0310 | RAM 0x800006D0 | jal      0x84000b44
+ROM 0x0364 | RAM 0x80000724 | jal      0x84000b44
+ROM 0x054C | RAM 0x8000090C | jr       $t4
+ROM 0x06D4 | RAM 0x80000A94 | bne      $t0, $ra, 0x80000a24
+ROM 0x077C | RAM 0x80000B3C | bne      $a3, $t0, 0x80000b58
+ROM 0x0788 | RAM 0x80000B48 | bne      $s0, $t0, 0x80000b58
+ROM 0x07BC | RAM 0x80000B7C | bne      $t0, $t1, 0x80000b78
+ROM 0x07CC | RAM 0x80000B8C | jr       $t1
+ROM 0x0800 | RAM 0x80000BC0 | bltz     $a1, 0x80000c30
+ROM 0x0840 | RAM 0x80000C00 | bgez     $v1, 0x80000bf8
+ROM 0x08F0 | RAM 0x80000CB0 | jal      0x84000984
+ROM 0x090C | RAM 0x80000CCC | jal      0x84000b44
+ROM 0x097C | RAM 0x80000D3C | jr       $ra
+ROM 0x09A4 | RAM 0x80000D64 | jal      0x84000a10
+ROM 0x09EC | RAM 0x80000DAC | jal      0x84000a84
+ROM 0x0A08 | RAM 0x80000DC8 | jr       $ra
+ROM 0x0A1C | RAM 0x80000DDC | jal      0x84000b44
+ROM 0x0A7C | RAM 0x80000E3C | jr       $ra
+ROM 0x0ABC | RAM 0x80000E7C | jal      0x84000b44
+ROM 0x0AC4 | RAM 0x80000E84 | jal      0x84000bd4
+ROM 0x0ACC | RAM 0x80000E8C | jal      0x84000bd4
+ROM 0x0B3C | RAM 0x80000EFC | jr       $ra
+ROM 0x0B58 | RAM 0x80000F18 | bne      $a1, $k1, 0x80000f28
+ROM 0x0BB4 | RAM 0x80000F74 | bne      $a1, $k1, 0x80000f84
+ROM 0x0BCC | RAM 0x80000F8C | jr       $ra
+ROM 0x0C68 | RAM 0x80001028 | jr       $ra
+ROM 0x0CB8 | RAM 0x80001078 | bltz     $a1, 0x80001088
+ROM 0x0D74 | RAM 0x80001134 | bne      $s7, $k0, 0x7ffe3308
+ROM 0x0D90 | RAM 0x80001150 | jal      0x86acce34
+ROM 0x0DA0 | RAM 0x80001160 | beq      $t5, $t0, 0x8001a480
+ROM 0x0DBC | RAM 0x8000117C | j        0x85ae527c
+ROM 0x0DCC | RAM 0x8000118C | jal      0x829a94a8
+ROM 0x0E50 | RAM 0x80001210 | beq      $s5, $s2, 0x80001ae0
+ROM 0x0EAC | RAM 0x8000126C | jal      0x8446bd30
+ROM 0x0EB0 | RAM 0x80001270 | beq      $t4, $t4, 0x8000ddc4
+ROM 0x0EC8 | RAM 0x80001288 | jal      0x8166651c
+ROM 0x0EDC | RAM 0x8000129C | bne      $a0, $a1, 0x7ffec160
+ROM 0x0EE4 | RAM 0x800012A4 | beq      $t1, $t5, 0x80001718
+ROM 0x0F30 | RAM 0x800012F0 | jal      0x871d96f8
+ROM 0x0F50 | RAM 0x80001310 | bne      $a2, $a2, 0x7fffa73c
+ROM 0x0FAC | RAM 0x8000136C | bne      $t0, $a3, 0x800072f0
+ROM 0x0FE4 | RAM 0x800013A4 | jal      0x8d04d200
+
+[4] DESTINOS DE J / JAL
+
+J    RAM 0x80000468 -> 0x800011B8
+JAL  RAM 0x800005A8 -> 0x8400087C
+JAL  RAM 0x800006D0 -> 0x84000B44
+JAL  RAM 0x80000724 -> 0x84000B44
+JAL  RAM 0x80000CB0 -> 0x84000984
+JAL  RAM 0x80000CCC -> 0x84000B44
+JAL  RAM 0x80000D64 -> 0x84000A10
+JAL  RAM 0x80000DAC -> 0x84000A84
+JAL  RAM 0x80000DDC -> 0x84000B44
+JAL  RAM 0x80000E7C -> 0x84000B44
+JAL  RAM 0x80000E84 -> 0x84000BD4
+JAL  RAM 0x80000E8C -> 0x84000BD4
+JAL  RAM 0x80001150 -> 0x86ACCE34
+J    RAM 0x8000117C -> 0x85AE527C
+JAL  RAM 0x8000118C -> 0x829A94A8
+JAL  RAM 0x8000126C -> 0x8446BD30
+JAL  RAM 0x80001288 -> 0x8166651C
+JAL  RAM 0x800012F0 -> 0x871D96F8
+JAL  RAM 0x800013A4 -> 0x8D04D200
+
+[5] LUI - POSIBLES CONSTRUCCIONES DE DIRECCIONES
+
+ROM 0x00AC | RAM 0x8000046C | lui      $t3, 0xa4b0
+             siguiente: jr $t3
+ROM 0x00C4 | RAM 0x80000484 | lui      $t0, 0xa470
+             siguiente: addiu $t0, $t0, 0
+ROM 0x00F0 | RAM 0x800004B0 | lui      $t0, 0xa470
+             siguiente: addiu $t0, $t0, 0
+ROM 0x00F8 | RAM 0x800004B8 | lui      $t2, 0xa3f8
+             siguiente: lui $t3, 0xa3f0
+ROM 0x00FC | RAM 0x800004BC | lui      $t3, 0xa3f0
+             siguiente: lui $t4, 0xa430
+ROM 0x0100 | RAM 0x800004C0 | lui      $t4, 0xa430
+             siguiente: addiu $t4, $t4, 0
+ROM 0x0164 | RAM 0x80000524 | lui      $t1, 0x1808
+             siguiente: ori $t1, $t1, 0x2838
+ROM 0x0174 | RAM 0x80000534 | lui      $t1, 0x8000
+             siguiente: sw $t1, 4($t2)
+ROM 0x0184 | RAM 0x80000544 | lui      $t7, 0xa3f0
+             siguiente: move $t8, $zero
+ROM 0x018C | RAM 0x8000054C | lui      $t9, 0xa3f0
+             siguiente: lui $s6, 0xa000
+ROM 0x0190 | RAM 0x80000550 | lui      $s6, 0xa000
+             siguiente: move $s7, $zero
+ROM 0x0198 | RAM 0x80000558 | lui      $a2, 0xa3f0
+             siguiente: lui $a3, 0xa000
+ROM 0x019C | RAM 0x8000055C | lui      $a3, 0xa000
+             siguiente: move $s2, $zero
+ROM 0x01A4 | RAM 0x80000564 | lui      $s4, 0xa000
+             siguiente: addiu $sp, $sp, -0x48
+ROM 0x01B0 | RAM 0x80000570 | lui      $s0, 0xa430
+             siguiente: lw $s0, 4($s0)
+ROM 0x01B8 | RAM 0x80000578 | lui      $s1, 0x101
+             siguiente: addiu $s1, $s1, 0x101
+ROM 0x0208 | RAM 0x800005C8 | lui      $t0, 0xf0ff
+             siguiente: and $t3, $t3, $t0
+ROM 0x0220 | RAM 0x800005E0 | lui      $t0, 0xb019
+             siguiente: bne $t3, $t0, 0x80000618
+ROM 0x022C | RAM 0x800005EC | lui      $t0, 0x800
+             siguiente: add $t8, $t8, $t0
+ROM 0x023C | RAM 0x800005FC | lui      $t0, 0x20
+             siguiente: add $s6, $s6, $t0
+ROM 0x0258 | RAM 0x80000618 | lui      $t0, 0x10
+             siguiente: add $s4, $s4, $t0
+ROM 0x0288 | RAM 0x80000648 | lui      $k1, 0x100
+             siguiente: and $k0, $k0, $k1
+ROM 0x0298 | RAM 0x80000658 | lui      $t0, 0x101c
+             siguiente: ori $t0, $t0, 0xa04
+ROM 0x02A8 | RAM 0x80000668 | lui      $t0, 0x80c
+             siguiente: ori $t0, $t0, 0x1204
+ROM 0x02B4 | RAM 0x80000674 | lui      $t0, 0x800
+             siguiente: add $t6, $t6, $t0
+ROM 0x02D4 | RAM 0x80000694 | lui      $t0, 0xc400
+             siguiente: sw $t0, 0xc($t2)
+ROM 0x02DC | RAM 0x8000069C | lui      $t0, 0x8000
+             siguiente: sw $t0, 4($t2)
+ROM 0x02F0 | RAM 0x800006B0 | lui      $t0, 0xb009
+             siguiente: bne $t1, $t0, 0x80000710
+ROM 0x031C | RAM 0x800006DC | lui      $t0, 8
+             siguiente: add $t0, $t0, $s6
+ROM 0x032C | RAM 0x800006EC | lui      $t0, 8
+             siguiente: add $t0, $t0, $s6
+ROM 0x0338 | RAM 0x800006F8 | lui      $t0, 0x400
+             siguiente: add $t6, $t6, $t0
+ROM 0x0344 | RAM 0x80000704 | lui      $t0, 0x10
+             siguiente: add $s6, $s6, $t0
+ROM 0x0370 | RAM 0x80000730 | lui      $t0, 8
+             siguiente: add $t0, $t0, $a3
+ROM 0x037C | RAM 0x8000073C | lui      $t0, 0x10
+             siguiente: add $t0, $t0, $a3
+ROM 0x0388 | RAM 0x80000748 | lui      $t0, 0x18
+             siguiente: add $t0, $t0, $a3
+ROM 0x0398 | RAM 0x80000758 | lui      $t0, 8
+             siguiente: add $t0, $t0, $a3
+ROM 0x03A4 | RAM 0x80000764 | lui      $t0, 0x10
+             siguiente: add $t0, $t0, $a3
+ROM 0x03B0 | RAM 0x80000770 | lui      $t0, 0x18
+             siguiente: add $t0, $t0, $a3
+ROM 0x03BC | RAM 0x8000077C | lui      $t0, 0x800
+             siguiente: add $s7, $s7, $t0
+ROM 0x03CC | RAM 0x8000078C | lui      $t0, 0x20
+             siguiente: add $a3, $a3, $t0
+ROM 0x03E4 | RAM 0x800007A4 | lui      $t2, 0xa470
+             siguiente: sll $s2, $s2, 0x13
+ROM 0x03EC | RAM 0x800007AC | lui      $t1, 6
+             siguiente: ori $t1, $t1, 0x3634
+ROM 0x0400 | RAM 0x800007C0 | lui      $t0, 0xa000
+             siguiente: ori $t0, $t0, 0x3f0
+ROM 0x0408 | RAM 0x800007C8 | lui      $t1, 0xfff
+             siguiente: ori $t1, $t1, 0xffff
+ROM 0x0438 | RAM 0x800007F8 | lui      $t0, 0x8000
+             siguiente: addiu $t0, $t0, 0
+ROM 0x0460 | RAM 0x80000820 | lui      $t0, 0x8000
+             siguiente: addiu $t0, $t0, 0
+ROM 0x0488 | RAM 0x80000848 | lui      $t0, 0x8000
+             siguiente: addiu $t0, $t0, 0
+ROM 0x04B0 | RAM 0x80000870 | lui      $t0, 0x8000
+             siguiente: addiu $t0, $t0, 0
+ROM 0x04D4 | RAM 0x80000894 | lui      $at, 0xa404
+             siguiente: sw $t2, 0x10($at)
+ROM 0x04DC | RAM 0x8000089C | lui      $t2, 0xa400
+             siguiente: addiu $t2, $t2, 0
+ROM 0x04E4 | RAM 0x800008A4 | lui      $t3, 0xfff0
+             siguiente: lui $t1, 0x10
+ROM 0x04E8 | RAM 0x800008A8 | lui      $t1, 0x10
+             siguiente: and $t2, $t2, $t3
+ROM 0x04F0 | RAM 0x800008B0 | lui      $t0, 0xa400
+             siguiente: addiu $t1, $t1, -1
+ROM 0x04F8 | RAM 0x800008B8 | lui      $t3, 0xa400
+             siguiente: addiu $t0, $t0, 0x554
+ROM 0x050C | RAM 0x800008CC | lui      $at, 0xa408
+             siguiente: lui $t1, 0xa000
+ROM 0x0510 | RAM 0x800008D0 | lui      $t1, 0xa000
+             siguiente: sw $zero, ($at)
+ROM 0x053C | RAM 0x800008FC | lui      $t4, 0x8000
+             siguiente: addiu $t2, $zero, 0xad
+ROM 0x0544 | RAM 0x80000904 | lui      $at, 0xa404
+             siguiente: addiu $t4, $t4, 4
+ROM 0x0554 | RAM 0x80000914 | lui      $t3, 0xb000
+             siguiente: lw $t1, 8($t3)
+ROM 0x055C | RAM 0x8000091C | lui      $t2, 0x1fff
+             siguiente: ori $t2, $t2, 0xffff
+ROM 0x0564 | RAM 0x80000924 | lui      $at, 0xa460
+             siguiente: and $t1, $t1, $t2
+ROM 0x0570 | RAM 0x80000930 | lui      $t0, 0xa460
+             siguiente: lw $t0, 0x10($t0)
+ROM 0x0580 | RAM 0x80000940 | lui      $t0, 0xa460
+             siguiente: addiu $t0, $zero, 0x1000
+ROM 0x0590 | RAM 0x80000950 | lui      $at, 0xa460
+             siguiente: sw $t0, 4($at)
+ROM 0x0598 | RAM 0x80000958 | lui      $t2, 0x10
+             siguiente: addiu $t2, $t2, -1
+ROM 0x05A0 | RAM 0x80000960 | lui      $at, 0xa460
+             siguiente: sw $t2, 0xc($at)
+ROM 0x05E8 | RAM 0x800009A8 | lui      $t3, 0xa460
+             siguiente: lw $t3, 0x10($t3)
+ROM 0x05FC | RAM 0x800009BC | lui      $at, 0xa404
+             siguiente: sw $zero, 0x1c($at)
+ROM 0x0604 | RAM 0x800009C4 | lui      $t3, 0xb000
+             siguiente: lw $a0, 8($t3)
+ROM 0x0610 | RAM 0x800009D0 | lui      $at, 0x5d58
+             siguiente: ori $at, $at, 0x8b65
+ROM 0x0628 | RAM 0x800009E8 | lui      $s6, 0xa000
+             siguiente: addiu $s6, $s6, 0x200
+ROM 0x0630 | RAM 0x800009F0 | lui      $ra, 0x10
+             siguiente: move $v1, $zero
+ROM 0x06C8 | RAM 0x80000A88 | lui      $t7, 0xa000
+             siguiente: ori $t7, $t7, 0x2ff
+ROM 0x06E4 | RAM 0x80000AA4 | lui      $t3, 0xaa
+             siguiente: ori $t3, $t3, 0xaaae
+ROM 0x06EC | RAM 0x80000AAC | lui      $at, 0xa404
+             siguiente: sw $t3, 0x10($at)
+ROM 0x06F4 | RAM 0x80000AB4 | lui      $at, 0xa430
+             siguiente: addiu $t0, $zero, 0x555
+ROM 0x0700 | RAM 0x80000AC0 | lui      $at, 0xa480
+             siguiente: sw $zero, 0x18($at)
+ROM 0x0708 | RAM 0x80000AC8 | lui      $at, 0xa450
+             siguiente: sw $zero, 0xc($at)
+ROM 0x0710 | RAM 0x80000AD0 | lui      $at, 0xa430
+             siguiente: addiu $t1, $zero, 0x800
+ROM 0x0720 | RAM 0x80000AE0 | lui      $at, 0xa460
+             siguiente: sw $t1, 0x10($at)
+ROM 0x0728 | RAM 0x80000AE8 | lui      $t0, 0xa000
+             siguiente: ori $t0, $t0, 0x300
+ROM 0x0754 | RAM 0x80000B14 | lui      $t1, 0xa600
+             siguiente: b 0x80000b28
+ROM 0x0760 | RAM 0x80000B20 | lui      $t1, 0xb000
+             siguiente: addiu $t1, $t1, 0
+ROM 0x0770 | RAM 0x80000B30 | lui      $t3, 0xb000
+             siguiente: sw $t1, 0x18($t0)
+ROM 0x07A0 | RAM 0x80000B60 | lui      $t0, 0xa400
+             siguiente: addiu $t0, $t0, 0
+ROM 0x07C4 | RAM 0x80000B84 | lui      $t3, 0xb000
+             siguiente: lw $t1, 8($t3)
+ROM 0x07FC | RAM 0x80000BBC | lui      $a1, 0x20
+             siguiente: bltz $a1, 0x80000c30
+ROM 0x0850 | RAM 0x80000C10 | lui      $v1, 0xb12f
+             siguiente: xori $v1, $v1, 0xb1f0
+ROM 0x085C | RAM 0x80000C1C | lui      $v1, 0xfe81
+             siguiente: xori $v1, $v1, 0x7000
+ROM 0x0B5C | RAM 0x80000F1C | lui      $t7, 0x4600
+             siguiente: lui $k0, 0x8000
+ROM 0x0B60 | RAM 0x80000F20 | lui      $k0, 0x8000
+             siguiente: or $t7, $t7, $k0
+ROM 0x0BBC | RAM 0x80000F7C | lui      $k0, 0xa430
+             siguiente: sw $zero, ($k0)
+ROM 0x0BE0 | RAM 0x80000FA0 | lui      $k1, 0xa430
+             siguiente: sw $k0, ($k1)
+ROM 0x0C1C | RAM 0x80000FDC | lui      $k1, 0x40
+             siguiente: and $k1, $k1, $fp
+ROM 0x0C4C | RAM 0x8000100C | lui      $k1, 0x80
+             siguiente: and $k1, $k1, $fp
+ROM 0x0C90 | RAM 0x80001050 | lui      $fp, 0xb12f
+             siguiente: xori $fp, $fp, 0xb1f0
+ROM 0x0C9C | RAM 0x8000105C | lui      $v1, 0xfe81
+             siguiente: xori $v1, $v1, 0x7000
+ROM 0x0CB0 | RAM 0x80001070 | lui      $a1, 0x7fff
+             siguiente: ori $a1, $a1, 0
+
+[6] CONSTANTES QUE PARECEN DIRECCIONES
+
+ROM 0x0790: 0x04110003  <-- N64 HARDWARE
+ROM 0x0798: 0x0411FFFF  <-- N64 HARDWARE
+ROM 0x0800: 0x04A0001B  <-- N64 HARDWARE
+ROM 0x0840: 0x0461FFFD  <-- N64 HARDWARE
+ROM 0x0CB8: 0x04A00003  <-- N64 HARDWARE
+ROM 0x0E14: 0xA01D51C5  <-- RAM
+ROM 0x0E3C: 0x040D159B  <-- N64 HARDWARE
+ROM 0x0E40: 0x801F83D5  <-- RAM
+ROM 0x0F04: 0x04CE7A3F  <-- N64 HARDWARE
+ROM 0x0FCC: 0xA05930F2  <-- RAM
+
+[7] POSIBLES REFERENCIAS AL ROM
+
+ROM 0x00B0: 0x01600008
+ROM 0x020C: 0x01685824
+ROM 0x0248: 0x00129040
+ROM 0x02B8: 0x01C87020
+ROM 0x02BC: 0x01F07820
+ROM 0x02C0: 0x01F07820
+ROM 0x0320: 0x01164020
+ROM 0x0330: 0x01164020
+ROM 0x033C: 0x01C87020
+ROM 0x0374: 0x01074020
+ROM 0x0380: 0x01074020
+ROM 0x038C: 0x01074020
+ROM 0x039C: 0x01074020
+ROM 0x03A8: 0x01074020
+ROM 0x03B4: 0x01074020
+ROM 0x03C4: 0x00D03020
+ROM 0x03C8: 0x00D03020
+ROM 0x03D0: 0x00E83820
+ROM 0x03E8: 0x001294C0
+ROM 0x04EC: 0x014B5024
+ROM 0x0504: 0x01094024
+ROM 0x0508: 0x01695824
+ROM 0x054C: 0x01800008
+ROM 0x0568: 0x012A4824
+ROM 0x0588: 0x010B4020
+ROM 0x058C: 0x010A4024
+ROM 0x0688: 0x00627004
+ROM 0x07CC: 0x01200008
+ROM 0x09D8: 0x000B2080
+ROM 0x09E0: 0x00042080
+ROM 0x09E8: 0x00042040
+ROM 0x0B6C: 0x001AD180
+ROM 0x0B78: 0x001AD340
+ROM 0x0B84: 0x001AD500
+ROM 0x0B90: 0x001AD100
+ROM 0x0B9C: 0x001AD2C0
+ROM 0x0BA8: 0x001AD480
+
+[8] WORDS DEL BOOT
+
+ROM 0x00B0 | RAM 0x80000470 | 0x01600008
+ROM 0x020C | RAM 0x800005CC | 0x01685824
+ROM 0x0248 | RAM 0x80000608 | 0x00129040
+ROM 0x02B8 | RAM 0x80000678 | 0x01C87020
+ROM 0x02BC | RAM 0x8000067C | 0x01F07820
+ROM 0x02C0 | RAM 0x80000680 | 0x01F07820
+ROM 0x0320 | RAM 0x800006E0 | 0x01164020
+ROM 0x0330 | RAM 0x800006F0 | 0x01164020
+ROM 0x033C | RAM 0x800006FC | 0x01C87020
+ROM 0x0374 | RAM 0x80000734 | 0x01074020
+ROM 0x0380 | RAM 0x80000740 | 0x01074020
+ROM 0x038C | RAM 0x8000074C | 0x01074020
+ROM 0x039C | RAM 0x8000075C | 0x01074020
+ROM 0x03A8 | RAM 0x80000768 | 0x01074020
+ROM 0x03B4 | RAM 0x80000774 | 0x01074020
+ROM 0x03C4 | RAM 0x80000784 | 0x00D03020
+ROM 0x03C8 | RAM 0x80000788 | 0x00D03020
+ROM 0x03D0 | RAM 0x80000790 | 0x00E83820
+ROM 0x03E8 | RAM 0x800007A8 | 0x001294C0
+ROM 0x04EC | RAM 0x800008AC | 0x014B5024
+ROM 0x0504 | RAM 0x800008C4 | 0x01094024
+ROM 0x0508 | RAM 0x800008C8 | 0x01695824
+ROM 0x054C | RAM 0x8000090C | 0x01800008
+ROM 0x0568 | RAM 0x80000928 | 0x012A4824
+ROM 0x0588 | RAM 0x80000948 | 0x010B4020
+ROM 0x058C | RAM 0x8000094C | 0x010A4024
+ROM 0x0688 | RAM 0x80000A48 | 0x00627004
+ROM 0x0790 | RAM 0x80000B50 | 0x04110003
+ROM 0x0798 | RAM 0x80000B58 | 0x0411FFFF
+ROM 0x07CC | RAM 0x80000B8C | 0x01200008
+ROM 0x0800 | RAM 0x80000BC0 | 0x04A0001B
+ROM 0x0840 | RAM 0x80000C00 | 0x0461FFFD
+ROM 0x09D8 | RAM 0x80000D98 | 0x000B2080
+ROM 0x09E0 | RAM 0x80000DA0 | 0x00042080
+ROM 0x09E8 | RAM 0x80000DA8 | 0x00042040
+ROM 0x0B6C | RAM 0x80000F2C | 0x001AD180
+ROM 0x0B78 | RAM 0x80000F38 | 0x001AD340
+ROM 0x0B84 | RAM 0x80000F44 | 0x001AD500
+ROM 0x0B90 | RAM 0x80000F50 | 0x001AD100
+ROM 0x0B9C | RAM 0x80000F5C | 0x001AD2C0
+ROM 0x0BA8 | RAM 0x80000F68 | 0x001AD480
+ROM 0x0CB8 | RAM 0x80001078 | 0x04A00003
+ROM 0x0E14 | RAM 0x800011D4 | 0xA01D51C5
+ROM 0x0E3C | RAM 0x800011FC | 0x040D159B
+ROM 0x0E40 | RAM 0x80001200 | 0x801F83D5
+ROM 0x0F04 | RAM 0x800012C4 | 0x04CE7A3F
+ROM 0x0FCC | RAM 0x8000138C | 0xA05930F2
+
+[9] DETALLE DE REGIONES DE CODIGO
+
+
+--- REGION 01 ROM 0x0040-0x0DE7 (3496 bytes) ---
+ROM 0x0040 | RAM 0x80000400 | add      $t1, $sp, $zero
+ROM 0x0044 | RAM 0x80000404 | lw       $t0, -0xff0($t1)
+ROM 0x0048 | RAM 0x80000408 | lw       $t2, 0x44($t3)
+ROM 0x004C | RAM 0x8000040C | xor      $t2, $t2, $t0
+ROM 0x0050 | RAM 0x80000410 | sw       $t2, -0xff0($t1)
+ROM 0x0054 | RAM 0x80000414 | addi     $t3, $t3, 4
+ROM 0x0058 | RAM 0x80000418 | andi     $t0, $t0, 0xfff
+ROM 0x005C | RAM 0x8000041C | bnez     $t0, 0x80000404
+ROM 0x0060 | RAM 0x80000420 | addi     $t1, $t1, 4
+ROM 0x0064 | RAM 0x80000424 | lw       $t0, 0x44($t3)
+ROM 0x0068 | RAM 0x80000428 | lw       $t2, 0x48($t3)
+ROM 0x006C | RAM 0x8000042C | sw       $t0, -0xff0($t1)
+ROM 0x0070 | RAM 0x80000430 | sw       $t2, -0xfec($t1)
+ROM 0x0074 | RAM 0x80000434 | bltz     $ra, 0x80000478
+ROM 0x0078 | RAM 0x80000438 | sw       $zero, -0xfe8($t1)
+ROM 0x007C | RAM 0x8000043C | nop      
+ROM 0x0080 | RAM 0x80000440 | nop      
+ROM 0x0084 | RAM 0x80000444 | ext      $gp, $zero, 0x1f, 0x13
+ROM 0x0088 | RAM 0x80000448 | lwr      $t0, -0x7fe($gp)
+ROM 0x0094 | RAM 0x80000454 | jalx     0x8447f850
+ROM 0x0098 | RAM 0x80000458 | ext      $gp, $a0, 0x1f, 0x17
+ROM 0x009C | RAM 0x8000045C | pref     0x19, 0x1024($t1)
+ROM 0x00A0 | RAM 0x80000460 | slti     $t3, $s1, 0x4fff
+ROM 0x00A4 | RAM 0x80000464 | mfc0     $s1, $a2, 0
+ROM 0x00A8 | RAM 0x80000468 | j        0x800011b8
+ROM 0x00AC | RAM 0x8000046C | lui      $t3, 0xa4b0
+ROM 0x00B0 | RAM 0x80000470 | jr       $t3
+ROM 0x00B4 | RAM 0x80000474 | add      $s7, $s7, $s3
+ROM 0x00B8 | RAM 0x80000478 | mtc0     $zero, $t5, 0
+ROM 0x00BC | RAM 0x8000047C | mtc0     $zero, $t1, 0
+ROM 0x00C0 | RAM 0x80000480 | mtc0     $zero, $t3, 0
+ROM 0x00C4 | RAM 0x80000484 | lui      $t0, 0xa470
+ROM 0x00C8 | RAM 0x80000488 | addiu    $t0, $t0, 0
+ROM 0x00CC | RAM 0x8000048C | lw       $t1, 0xc($t0)
+ROM 0x00D0 | RAM 0x80000490 | bnez     $t1, 0x80000848
+ROM 0x00D4 | RAM 0x80000494 | nop      
+ROM 0x00D8 | RAM 0x80000498 | addiu    $sp, $sp, -0x18
+ROM 0x00DC | RAM 0x8000049C | sw       $s3, ($sp)
+ROM 0x00E0 | RAM 0x800004A0 | sw       $s4, 4($sp)
+ROM 0x00E4 | RAM 0x800004A4 | sw       $s5, 8($sp)
+ROM 0x00E8 | RAM 0x800004A8 | sw       $s6, 0xc($sp)
+ROM 0x00EC | RAM 0x800004AC | sw       $s7, 0x10($sp)
+ROM 0x00F0 | RAM 0x800004B0 | lui      $t0, 0xa470
+ROM 0x00F4 | RAM 0x800004B4 | addiu    $t0, $t0, 0
+ROM 0x00F8 | RAM 0x800004B8 | lui      $t2, 0xa3f8
+ROM 0x00FC | RAM 0x800004BC | lui      $t3, 0xa3f0
+ROM 0x0100 | RAM 0x800004C0 | lui      $t4, 0xa430
+ROM 0x0104 | RAM 0x800004C4 | addiu    $t4, $t4, 0
+ROM 0x0108 | RAM 0x800004C8 | ori      $t1, $zero, 0x40
+ROM 0x010C | RAM 0x800004CC | sw       $t1, 4($t0)
+ROM 0x0110 | RAM 0x800004D0 | addiu    $s1, $zero, 0x1f40
+ROM 0x0114 | RAM 0x800004D4 | nop      
+ROM 0x0118 | RAM 0x800004D8 | addi     $s1, $s1, -1
+ROM 0x011C | RAM 0x800004DC | bnez     $s1, 0x800004d4
+ROM 0x0120 | RAM 0x800004E0 | nop      
+ROM 0x0124 | RAM 0x800004E4 | sw       $zero, 8($t0)
+ROM 0x0128 | RAM 0x800004E8 | ori      $t1, $zero, 0x14
+ROM 0x012C | RAM 0x800004EC | sw       $t1, 0xc($t0)
+ROM 0x0130 | RAM 0x800004F0 | sw       $zero, ($t0)
+ROM 0x0134 | RAM 0x800004F4 | addiu    $s1, $zero, 4
+ROM 0x0138 | RAM 0x800004F8 | nop      
+ROM 0x013C | RAM 0x800004FC | addi     $s1, $s1, -1
+ROM 0x0140 | RAM 0x80000500 | bnez     $s1, 0x800004f8
+ROM 0x0144 | RAM 0x80000504 | nop      
+ROM 0x0148 | RAM 0x80000508 | ori      $t1, $zero, 0xe
+ROM 0x014C | RAM 0x8000050C | sw       $t1, ($t0)
+ROM 0x0150 | RAM 0x80000510 | addiu    $s1, $zero, 0x20
+ROM 0x0154 | RAM 0x80000514 | addi     $s1, $s1, -1
+ROM 0x0158 | RAM 0x80000518 | bnez     $s1, 0x80000514
+ROM 0x015C | RAM 0x8000051C | ori      $t1, $zero, 0x10f
+ROM 0x0160 | RAM 0x80000520 | sw       $t1, ($t4)
+ROM 0x0164 | RAM 0x80000524 | lui      $t1, 0x1808
+ROM 0x0168 | RAM 0x80000528 | ori      $t1, $t1, 0x2838
+ROM 0x016C | RAM 0x8000052C | sw       $t1, 8($t2)
+ROM 0x0170 | RAM 0x80000530 | sw       $zero, 0x14($t2)
+ROM 0x0174 | RAM 0x80000534 | lui      $t1, 0x8000
+ROM 0x0178 | RAM 0x80000538 | sw       $t1, 4($t2)
+ROM 0x017C | RAM 0x8000053C | move     $t5, $zero
+ROM 0x0180 | RAM 0x80000540 | move     $t6, $zero
+ROM 0x0184 | RAM 0x80000544 | lui      $t7, 0xa3f0
+ROM 0x0188 | RAM 0x80000548 | move     $t8, $zero
+ROM 0x018C | RAM 0x8000054C | lui      $t9, 0xa3f0
+ROM 0x0190 | RAM 0x80000550 | lui      $s6, 0xa000
+ROM 0x0194 | RAM 0x80000554 | move     $s7, $zero
+ROM 0x0198 | RAM 0x80000558 | lui      $a2, 0xa3f0
+ROM 0x019C | RAM 0x8000055C | lui      $a3, 0xa000
+ROM 0x01A0 | RAM 0x80000560 | move     $s2, $zero
+ROM 0x01A4 | RAM 0x80000564 | lui      $s4, 0xa000
+ROM 0x01A8 | RAM 0x80000568 | addiu    $sp, $sp, -0x48
+ROM 0x01AC | RAM 0x8000056C | move     $fp, $sp
+ROM 0x01B0 | RAM 0x80000570 | lui      $s0, 0xa430
+ROM 0x01B4 | RAM 0x80000574 | lw       $s0, 4($s0)
+ROM 0x01B8 | RAM 0x80000578 | lui      $s1, 0x101
+ROM 0x01BC | RAM 0x8000057C | addiu    $s1, $s1, 0x101
+ROM 0x01C0 | RAM 0x80000580 | bne      $s0, $s1, 0x80000598
+ROM 0x01C4 | RAM 0x80000584 | nop      
+ROM 0x01C8 | RAM 0x80000588 | addiu    $s0, $zero, 0x200
+ROM 0x01CC | RAM 0x8000058C | ori      $s1, $t3, 0x4000
+ROM 0x01D0 | RAM 0x80000590 | b        0x800005a0
+ROM 0x01D4 | RAM 0x80000594 | nop      
+ROM 0x01D8 | RAM 0x80000598 | addiu    $s0, $zero, 0x400
+ROM 0x01DC | RAM 0x8000059C | ori      $s1, $t3, 0x8000
+ROM 0x01E0 | RAM 0x800005A0 | sw       $t6, 4($s1)
+ROM 0x01E4 | RAM 0x800005A4 | addiu    $s5, $t7, 0xc
+ROM 0x01E8 | RAM 0x800005A8 | jal      0x8400087c
+ROM 0x01EC | RAM 0x800005AC | nop      
+ROM 0x01F0 | RAM 0x800005B0 | beqz     $v0, 0x80000694
+ROM 0x01F4 | RAM 0x800005B4 | nop      
+ROM 0x01F8 | RAM 0x800005B8 | sw       $v0, ($sp)
+ROM 0x01FC | RAM 0x800005BC | addiu    $t1, $zero, 0x2000
+ROM 0x0200 | RAM 0x800005C0 | sw       $t1, ($t4)
+ROM 0x0204 | RAM 0x800005C4 | lw       $t3, ($t7)
+ROM 0x0208 | RAM 0x800005C8 | lui      $t0, 0xf0ff
+ROM 0x020C | RAM 0x800005CC | and      $t3, $t3, $t0
+ROM 0x0210 | RAM 0x800005D0 | sw       $t3, 4($sp)
+ROM 0x0214 | RAM 0x800005D4 | addi     $sp, $sp, 8
+ROM 0x0218 | RAM 0x800005D8 | addiu    $t1, $zero, 0x1000
+ROM 0x021C | RAM 0x800005DC | sw       $t1, ($t4)
+ROM 0x0220 | RAM 0x800005E0 | lui      $t0, 0xb019
+ROM 0x0224 | RAM 0x800005E4 | bne      $t3, $t0, 0x80000618
+ROM 0x0228 | RAM 0x800005E8 | nop      
+ROM 0x022C | RAM 0x800005EC | lui      $t0, 0x800
+ROM 0x0230 | RAM 0x800005F0 | add      $t8, $t8, $t0
+ROM 0x0234 | RAM 0x800005F4 | add      $t9, $t9, $s0
+ROM 0x0238 | RAM 0x800005F8 | add      $t9, $t9, $s0
+ROM 0x023C | RAM 0x800005FC | lui      $t0, 0x20
+ROM 0x0240 | RAM 0x80000600 | add      $s6, $s6, $t0
+ROM 0x0244 | RAM 0x80000604 | add      $s4, $s4, $t0
+ROM 0x0248 | RAM 0x80000608 | sll      $s2, $s2, 1
+ROM 0x024C | RAM 0x8000060C | addi     $s2, $s2, 1
+ROM 0x0250 | RAM 0x80000610 | b        0x80000620
+ROM 0x0254 | RAM 0x80000614 | nop      
+ROM 0x0258 | RAM 0x80000618 | lui      $t0, 0x10
+ROM 0x025C | RAM 0x8000061C | add      $s4, $s4, $t0
+ROM 0x0260 | RAM 0x80000620 | addiu    $t0, $zero, 0x2000
+ROM 0x0264 | RAM 0x80000624 | sw       $t0, ($t4)
+ROM 0x0268 | RAM 0x80000628 | lw       $t1, 0x24($t7)
+ROM 0x026C | RAM 0x8000062C | lw       $k0, ($t7)
+ROM 0x0270 | RAM 0x80000630 | addiu    $t0, $zero, 0x1000
+ROM 0x0274 | RAM 0x80000634 | sw       $t0, ($t4)
+ROM 0x0278 | RAM 0x80000638 | andi     $t1, $t1, 0xffff
+ROM 0x027C | RAM 0x8000063C | addiu    $t0, $zero, 0x500
+ROM 0x0280 | RAM 0x80000640 | bne      $t1, $t0, 0x80000668
+ROM 0x0284 | RAM 0x80000644 | nop      
+ROM 0x0288 | RAM 0x80000648 | lui      $k1, 0x100
+ROM 0x028C | RAM 0x8000064C | and      $k0, $k0, $k1
+ROM 0x0290 | RAM 0x80000650 | bnez     $k0, 0x80000668
+ROM 0x0294 | RAM 0x80000654 | nop      
+ROM 0x0298 | RAM 0x80000658 | lui      $t0, 0x101c
+ROM 0x029C | RAM 0x8000065C | ori      $t0, $t0, 0xa04
+ROM 0x02A0 | RAM 0x80000660 | sw       $t0, 0x18($t7)
+ROM 0x02A4 | RAM 0x80000664 | b        0x80000674
+ROM 0x02A8 | RAM 0x80000668 | lui      $t0, 0x80c
+ROM 0x02AC | RAM 0x8000066C | ori      $t0, $t0, 0x1204
+ROM 0x02B0 | RAM 0x80000670 | sw       $t0, 0x18($t7)
+ROM 0x02B4 | RAM 0x80000674 | lui      $t0, 0x800
+ROM 0x02B8 | RAM 0x80000678 | add      $t6, $t6, $t0
+ROM 0x02BC | RAM 0x8000067C | add      $t7, $t7, $s0
+ROM 0x02C0 | RAM 0x80000680 | add      $t7, $t7, $s0
+ROM 0x02C4 | RAM 0x80000684 | addiu    $t5, $t5, 1
+ROM 0x02C8 | RAM 0x80000688 | sltiu    $t0, $t5, 8
+ROM 0x02CC | RAM 0x8000068C | bnez     $t0, 0x800005a0
+ROM 0x02D0 | RAM 0x80000690 | nop      
+ROM 0x02D4 | RAM 0x80000694 | lui      $t0, 0xc400
+ROM 0x02D8 | RAM 0x80000698 | sw       $t0, 0xc($t2)
+ROM 0x02DC | RAM 0x8000069C | lui      $t0, 0x8000
+ROM 0x02E0 | RAM 0x800006A0 | sw       $t0, 4($t2)
+ROM 0x02E4 | RAM 0x800006A4 | move     $sp, $fp
+ROM 0x02E8 | RAM 0x800006A8 | move     $v1, $zero
+ROM 0x02EC | RAM 0x800006AC | lw       $t1, 4($sp)
+ROM 0x02F0 | RAM 0x800006B0 | lui      $t0, 0xb009
+ROM 0x02F4 | RAM 0x800006B4 | bne      $t1, $t0, 0x80000710
+ROM 0x02F8 | RAM 0x800006B8 | nop      
+ROM 0x02FC | RAM 0x800006BC | sw       $t8, 4($s1)
+ROM 0x0300 | RAM 0x800006C0 | addiu    $s5, $t9, 0xc
+ROM 0x0304 | RAM 0x800006C4 | lw       $a0, ($sp)
+ROM 0x0308 | RAM 0x800006C8 | addi     $sp, $sp, 8
+ROM 0x030C | RAM 0x800006CC | addiu    $a1, $zero, 1
+ROM 0x0310 | RAM 0x800006D0 | jal      0x84000b44
+ROM 0x0314 | RAM 0x800006D4 | nop      
+ROM 0x0318 | RAM 0x800006D8 | lw       $t0, ($s6)
+ROM 0x031C | RAM 0x800006DC | lui      $t0, 8
+ROM 0x0320 | RAM 0x800006E0 | add      $t0, $t0, $s6
+ROM 0x0324 | RAM 0x800006E4 | lw       $t1, ($t0)
+ROM 0x0328 | RAM 0x800006E8 | lw       $t0, ($s6)
+ROM 0x032C | RAM 0x800006EC | lui      $t0, 8
+ROM 0x0330 | RAM 0x800006F0 | add      $t0, $t0, $s6
+ROM 0x0334 | RAM 0x800006F4 | lw       $t1, ($t0)
+ROM 0x0338 | RAM 0x800006F8 | lui      $t0, 0x400
+ROM 0x033C | RAM 0x800006FC | add      $t6, $t6, $t0
+ROM 0x0340 | RAM 0x80000700 | add      $t9, $t9, $s0
+ROM 0x0344 | RAM 0x80000704 | lui      $t0, 0x10
+ROM 0x0348 | RAM 0x80000708 | add      $s6, $s6, $t0
+ROM 0x034C | RAM 0x8000070C | b        0x80000794
+ROM 0x0350 | RAM 0x80000710 | sw       $s7, 4($s1)
+ROM 0x0354 | RAM 0x80000714 | addiu    $s5, $a2, 0xc
+ROM 0x0358 | RAM 0x80000718 | lw       $a0, ($sp)
+ROM 0x035C | RAM 0x8000071C | addi     $sp, $sp, 8
+ROM 0x0360 | RAM 0x80000720 | addiu    $a1, $zero, 1
+ROM 0x0364 | RAM 0x80000724 | jal      0x84000b44
+ROM 0x0368 | RAM 0x80000728 | nop      
+ROM 0x036C | RAM 0x8000072C | lw       $t0, ($a3)
+ROM 0x0370 | RAM 0x80000730 | lui      $t0, 8
+ROM 0x0374 | RAM 0x80000734 | add      $t0, $t0, $a3
+ROM 0x0378 | RAM 0x80000738 | lw       $t1, ($t0)
+ROM 0x037C | RAM 0x8000073C | lui      $t0, 0x10
+ROM 0x0380 | RAM 0x80000740 | add      $t0, $t0, $a3
+ROM 0x0384 | RAM 0x80000744 | lw       $t1, ($t0)
+ROM 0x0388 | RAM 0x80000748 | lui      $t0, 0x18
+ROM 0x038C | RAM 0x8000074C | add      $t0, $t0, $a3
+ROM 0x0390 | RAM 0x80000750 | lw       $t1, ($t0)
+ROM 0x0394 | RAM 0x80000754 | lw       $t0, ($a3)
+ROM 0x0398 | RAM 0x80000758 | lui      $t0, 8
+ROM 0x039C | RAM 0x8000075C | add      $t0, $t0, $a3
+ROM 0x03A0 | RAM 0x80000760 | lw       $t1, ($t0)
+ROM 0x03A4 | RAM 0x80000764 | lui      $t0, 0x10
+ROM 0x03A8 | RAM 0x80000768 | add      $t0, $t0, $a3
+ROM 0x03AC | RAM 0x8000076C | lw       $t1, ($t0)
+ROM 0x03B0 | RAM 0x80000770 | lui      $t0, 0x18
+ROM 0x03B4 | RAM 0x80000774 | add      $t0, $t0, $a3
+ROM 0x03B8 | RAM 0x80000778 | lw       $t1, ($t0)
+ROM 0x03BC | RAM 0x8000077C | lui      $t0, 0x800
+ROM 0x03C0 | RAM 0x80000780 | add      $s7, $s7, $t0
+ROM 0x03C4 | RAM 0x80000784 | add      $a2, $a2, $s0
+ROM 0x03C8 | RAM 0x80000788 | add      $a2, $a2, $s0
+ROM 0x03CC | RAM 0x8000078C | lui      $t0, 0x20
+ROM 0x03D0 | RAM 0x80000790 | add      $a3, $a3, $t0
+ROM 0x03D4 | RAM 0x80000794 | addiu    $v1, $v1, 1
+ROM 0x03D8 | RAM 0x80000798 | slt      $t0, $v1, $t5
+ROM 0x03DC | RAM 0x8000079C | bnez     $t0, 0x800006ac
+ROM 0x03E0 | RAM 0x800007A0 | nop      
+ROM 0x03E4 | RAM 0x800007A4 | lui      $t2, 0xa470
+ROM 0x03E8 | RAM 0x800007A8 | sll      $s2, $s2, 0x13
+ROM 0x03EC | RAM 0x800007AC | lui      $t1, 6
+ROM 0x03F0 | RAM 0x800007B0 | ori      $t1, $t1, 0x3634
+ROM 0x03F4 | RAM 0x800007B4 | or       $t1, $t1, $s2
+ROM 0x03F8 | RAM 0x800007B8 | sw       $t1, 0x10($t2)
+ROM 0x03FC | RAM 0x800007BC | lw       $t1, 0x10($t2)
+ROM 0x0400 | RAM 0x800007C0 | lui      $t0, 0xa000
+ROM 0x0404 | RAM 0x800007C4 | ori      $t0, $t0, 0x3f0
+ROM 0x0408 | RAM 0x800007C8 | lui      $t1, 0xfff
+ROM 0x040C | RAM 0x800007CC | ori      $t1, $t1, 0xffff
+ROM 0x0410 | RAM 0x800007D0 | and      $s6, $s6, $t1
+ROM 0x0414 | RAM 0x800007D4 | sw       $s6, ($t0)
+ROM 0x0418 | RAM 0x800007D8 | move     $sp, $fp
+ROM 0x041C | RAM 0x800007DC | addiu    $sp, $sp, 0x48
+ROM 0x0420 | RAM 0x800007E0 | lw       $s3, ($sp)
+ROM 0x0424 | RAM 0x800007E4 | lw       $s4, 4($sp)
+ROM 0x0428 | RAM 0x800007E8 | lw       $s5, 8($sp)
+ROM 0x042C | RAM 0x800007EC | lw       $s6, 0xc($sp)
+ROM 0x0430 | RAM 0x800007F0 | lw       $s7, 0x10($sp)
+ROM 0x0434 | RAM 0x800007F4 | addiu    $sp, $sp, 0x18
+ROM 0x0438 | RAM 0x800007F8 | lui      $t0, 0x8000
+ROM 0x043C | RAM 0x800007FC | addiu    $t0, $t0, 0
+ROM 0x0440 | RAM 0x80000800 | addiu    $t1, $t0, 0x4000
+ROM 0x0444 | RAM 0x80000804 | addiu    $t1, $t1, -0x20
+ROM 0x0448 | RAM 0x80000808 | mtc0     $zero, $gp, 0
+ROM 0x044C | RAM 0x8000080C | mtc0     $zero, $sp, 0
+ROM 0x0450 | RAM 0x80000810 | cache    8, ($t0)
+ROM 0x0454 | RAM 0x80000814 | sltu     $at, $t0, $t1
+ROM 0x0458 | RAM 0x80000818 | bnez     $at, 0x80000810
+ROM 0x045C | RAM 0x8000081C | addiu    $t0, $t0, 0x20
+ROM 0x0460 | RAM 0x80000820 | lui      $t0, 0x8000
+ROM 0x0464 | RAM 0x80000824 | addiu    $t0, $t0, 0
+ROM 0x0468 | RAM 0x80000828 | addiu    $t1, $t0, 0x2000
+ROM 0x046C | RAM 0x8000082C | addiu    $t1, $t1, -0x10
+ROM 0x0470 | RAM 0x80000830 | cache    9, ($t0)
+ROM 0x0474 | RAM 0x80000834 | sltu     $at, $t0, $t1
+ROM 0x0478 | RAM 0x80000838 | bnez     $at, 0x80000830
+ROM 0x047C | RAM 0x8000083C | addiu    $t0, $t0, 0x10
+ROM 0x0480 | RAM 0x80000840 | b        0x80000890
+ROM 0x0484 | RAM 0x80000844 | nop      
+ROM 0x0488 | RAM 0x80000848 | lui      $t0, 0x8000
+ROM 0x048C | RAM 0x8000084C | addiu    $t0, $t0, 0
+ROM 0x0490 | RAM 0x80000850 | addiu    $t1, $t0, 0x4000
+ROM 0x0494 | RAM 0x80000854 | addiu    $t1, $t1, -0x20
+ROM 0x0498 | RAM 0x80000858 | mtc0     $zero, $gp, 0
+ROM 0x049C | RAM 0x8000085C | mtc0     $zero, $sp, 0
+ROM 0x04A0 | RAM 0x80000860 | cache    8, ($t0)
+ROM 0x04A4 | RAM 0x80000864 | sltu     $at, $t0, $t1
+ROM 0x04A8 | RAM 0x80000868 | bnez     $at, 0x80000860
+ROM 0x04AC | RAM 0x8000086C | addiu    $t0, $t0, 0x20
+ROM 0x04B0 | RAM 0x80000870 | lui      $t0, 0x8000
+ROM 0x04B4 | RAM 0x80000874 | addiu    $t0, $t0, 0
+ROM 0x04B8 | RAM 0x80000878 | addiu    $t1, $t0, 0x2000
+ROM 0x04BC | RAM 0x8000087C | addiu    $t1, $t1, -0x10
+ROM 0x04C0 | RAM 0x80000880 | cache    1, ($t0)
+ROM 0x04C4 | RAM 0x80000884 | sltu     $at, $t0, $t1
+ROM 0x04C8 | RAM 0x80000888 | bnez     $at, 0x80000880
+ROM 0x04CC | RAM 0x8000088C | addiu    $t0, $t0, 0x10
+ROM 0x04D0 | RAM 0x80000890 | addiu    $t2, $zero, 0xce
+ROM 0x04D4 | RAM 0x80000894 | lui      $at, 0xa404
+ROM 0x04D8 | RAM 0x80000898 | sw       $t2, 0x10($at)
+ROM 0x04DC | RAM 0x8000089C | lui      $t2, 0xa400
+ROM 0x04E0 | RAM 0x800008A0 | addiu    $t2, $t2, 0
+ROM 0x04E4 | RAM 0x800008A4 | lui      $t3, 0xfff0
+ROM 0x04E8 | RAM 0x800008A8 | lui      $t1, 0x10
+ROM 0x04EC | RAM 0x800008AC | and      $t2, $t2, $t3
+ROM 0x04F0 | RAM 0x800008B0 | lui      $t0, 0xa400
+ROM 0x04F4 | RAM 0x800008B4 | addiu    $t1, $t1, -1
+ROM 0x04F8 | RAM 0x800008B8 | lui      $t3, 0xa400
+ROM 0x04FC | RAM 0x800008BC | addiu    $t0, $t0, 0x554
+ROM 0x0500 | RAM 0x800008C0 | addiu    $t3, $t3, 0x888
+ROM 0x0504 | RAM 0x800008C4 | and      $t0, $t0, $t1
+ROM 0x0508 | RAM 0x800008C8 | and      $t3, $t3, $t1
+ROM 0x050C | RAM 0x800008CC | lui      $at, 0xa408
+ROM 0x0510 | RAM 0x800008D0 | lui      $t1, 0xa000
+ROM 0x0514 | RAM 0x800008D4 | sw       $zero, ($at)
+ROM 0x0518 | RAM 0x800008D8 | or       $t0, $t0, $t2
+ROM 0x051C | RAM 0x800008DC | or       $t3, $t3, $t2
+ROM 0x0520 | RAM 0x800008E0 | addiu    $t1, $t1, 4
+ROM 0x0524 | RAM 0x800008E4 | lw       $t5, ($t0)
+ROM 0x0528 | RAM 0x800008E8 | addiu    $t0, $t0, 4
+ROM 0x052C | RAM 0x800008EC | sltu     $at, $t0, $t3
+ROM 0x0530 | RAM 0x800008F0 | addiu    $t1, $t1, 4
+ROM 0x0534 | RAM 0x800008F4 | bnez     $at, 0x800008e4
+ROM 0x0538 | RAM 0x800008F8 | sw       $t5, -4($t1)
+ROM 0x053C | RAM 0x800008FC | lui      $t4, 0x8000
+ROM 0x0540 | RAM 0x80000900 | addiu    $t2, $zero, 0xad
+ROM 0x0544 | RAM 0x80000904 | lui      $at, 0xa404
+ROM 0x0548 | RAM 0x80000908 | addiu    $t4, $t4, 4
+ROM 0x054C | RAM 0x8000090C | jr       $t4
+ROM 0x0550 | RAM 0x80000910 | sw       $t2, 0x10($at)
+ROM 0x0554 | RAM 0x80000914 | lui      $t3, 0xb000
+ROM 0x0558 | RAM 0x80000918 | lw       $t1, 8($t3)
+ROM 0x055C | RAM 0x8000091C | lui      $t2, 0x1fff
+ROM 0x0560 | RAM 0x80000920 | ori      $t2, $t2, 0xffff
+ROM 0x0564 | RAM 0x80000924 | lui      $at, 0xa460
+ROM 0x0568 | RAM 0x80000928 | and      $t1, $t1, $t2
+ROM 0x056C | RAM 0x8000092C | sw       $t1, ($at)
+ROM 0x0570 | RAM 0x80000930 | lui      $t0, 0xa460
+ROM 0x0574 | RAM 0x80000934 | lw       $t0, 0x10($t0)
+ROM 0x0578 | RAM 0x80000938 | andi     $t0, $t0, 2
+ROM 0x057C | RAM 0x8000093C | bnel     $t0, $zero, 0x80000934
+ROM 0x0580 | RAM 0x80000940 | lui      $t0, 0xa460
+ROM 0x0584 | RAM 0x80000944 | addiu    $t0, $zero, 0x1000
+ROM 0x0588 | RAM 0x80000948 | add      $t0, $t0, $t3
+ROM 0x058C | RAM 0x8000094C | and      $t0, $t0, $t2
+ROM 0x0590 | RAM 0x80000950 | lui      $at, 0xa460
+ROM 0x0594 | RAM 0x80000954 | sw       $t0, 4($at)
+ROM 0x0598 | RAM 0x80000958 | lui      $t2, 0x10
+ROM 0x059C | RAM 0x8000095C | addiu    $t2, $t2, -1
+ROM 0x05A0 | RAM 0x80000960 | lui      $at, 0xa460
+ROM 0x05A4 | RAM 0x80000964 | sw       $t2, 0xc($at)
+ROM 0x05A8 | RAM 0x80000968 | nop      
+ROM 0x05AC | RAM 0x8000096C | nop      
+ROM 0x05B0 | RAM 0x80000970 | nop      
+ROM 0x05B4 | RAM 0x80000974 | nop      
+ROM 0x05B8 | RAM 0x80000978 | nop      
+ROM 0x05BC | RAM 0x8000097C | nop      
+ROM 0x05C0 | RAM 0x80000980 | nop      
+ROM 0x05C4 | RAM 0x80000984 | nop      
+ROM 0x05C8 | RAM 0x80000988 | nop      
+ROM 0x05CC | RAM 0x8000098C | nop      
+ROM 0x05D0 | RAM 0x80000990 | nop      
+ROM 0x05D4 | RAM 0x80000994 | nop      
+ROM 0x05D8 | RAM 0x80000998 | nop      
+ROM 0x05DC | RAM 0x8000099C | nop      
+ROM 0x05E0 | RAM 0x800009A0 | nop      
+ROM 0x05E4 | RAM 0x800009A4 | nop      
+ROM 0x05E8 | RAM 0x800009A8 | lui      $t3, 0xa460
+ROM 0x05EC | RAM 0x800009AC | lw       $t3, 0x10($t3)
+ROM 0x05F0 | RAM 0x800009B0 | andi     $t3, $t3, 1
+ROM 0x05F4 | RAM 0x800009B4 | bnez     $t3, 0x80000968
+ROM 0x05F8 | RAM 0x800009B8 | nop      
+ROM 0x05FC | RAM 0x800009BC | lui      $at, 0xa404
+ROM 0x0600 | RAM 0x800009C0 | sw       $zero, 0x1c($at)
+ROM 0x0604 | RAM 0x800009C4 | lui      $t3, 0xb000
+ROM 0x0608 | RAM 0x800009C8 | lw       $a0, 8($t3)
+ROM 0x060C | RAM 0x800009CC | move     $a1, $s6
+ROM 0x0610 | RAM 0x800009D0 | lui      $at, 0x5d58
+ROM 0x0614 | RAM 0x800009D4 | ori      $at, $at, 0x8b65
+ROM 0x0618 | RAM 0x800009D8 | multu    $a1, $at
+ROM 0x061C | RAM 0x800009DC | addiu    $sp, $sp, -0x20
+ROM 0x0620 | RAM 0x800009E0 | sw       $ra, 0x1c($sp)
+ROM 0x0624 | RAM 0x800009E4 | sw       $s0, 0x14($sp)
+ROM 0x0628 | RAM 0x800009E8 | lui      $s6, 0xa000
+ROM 0x062C | RAM 0x800009EC | addiu    $s6, $s6, 0x200
+ROM 0x0630 | RAM 0x800009F0 | lui      $ra, 0x10
+ROM 0x0634 | RAM 0x800009F4 | move     $v1, $zero
+ROM 0x0638 | RAM 0x800009F8 | move     $t0, $zero
+ROM 0x063C | RAM 0x800009FC | move     $t1, $a0
+ROM 0x0640 | RAM 0x80000A00 | mflo     $v0
+ROM 0x0644 | RAM 0x80000A04 | addiu    $v0, $v0, 1
+ROM 0x0648 | RAM 0x80000A08 | move     $a3, $v0
+ROM 0x064C | RAM 0x80000A0C | move     $t2, $v0
+ROM 0x0650 | RAM 0x80000A10 | move     $t3, $v0
+ROM 0x0654 | RAM 0x80000A14 | move     $s0, $v0
+ROM 0x0658 | RAM 0x80000A18 | move     $a2, $v0
+ROM 0x065C | RAM 0x80000A1C | move     $t4, $v0
+ROM 0x0660 | RAM 0x80000A20 | addiu    $t5, $zero, 0x20
+ROM 0x0664 | RAM 0x80000A24 | lw       $v0, ($t1)
+ROM 0x0668 | RAM 0x80000A28 | addu     $v1, $a3, $v0
+ROM 0x066C | RAM 0x80000A2C | sltu     $at, $v1, $a3
+ROM 0x0670 | RAM 0x80000A30 | beqz     $at, 0x80000a3c
+ROM 0x0674 | RAM 0x80000A34 | move     $a1, $v1
+ROM 0x0678 | RAM 0x80000A38 | addiu    $t2, $t2, 1
+ROM 0x067C | RAM 0x80000A3C | andi     $v1, $v0, 0x1f
+ROM 0x0680 | RAM 0x80000A40 | subu     $t7, $t5, $v1
+ROM 0x0684 | RAM 0x80000A44 | srlv     $t8, $v0, $t7
+ROM 0x0688 | RAM 0x80000A48 | sllv     $t6, $v0, $v1
+ROM 0x068C | RAM 0x80000A4C | or       $a0, $t6, $t8
+ROM 0x0690 | RAM 0x80000A50 | sltu     $at, $a2, $v0
+ROM 0x0694 | RAM 0x80000A54 | move     $a3, $a1
+ROM 0x0698 | RAM 0x80000A58 | xor      $t3, $t3, $v0
+ROM 0x069C | RAM 0x80000A5C | beqz     $at, 0x80000a70
+ROM 0x06A0 | RAM 0x80000A60 | addu     $s0, $s0, $a0
+ROM 0x06A4 | RAM 0x80000A64 | xor      $t9, $a3, $v0
+ROM 0x06A8 | RAM 0x80000A68 | b        0x80000a74
+ROM 0x06AC | RAM 0x80000A6C | xor      $a2, $t9, $a2
+ROM 0x06B0 | RAM 0x80000A70 | xor      $a2, $a2, $a0
+ROM 0x06B4 | RAM 0x80000A74 | lw       $t7, ($s6)
+ROM 0x06B8 | RAM 0x80000A78 | addiu    $t0, $t0, 4
+ROM 0x06BC | RAM 0x80000A7C | addiu    $s6, $s6, 4
+ROM 0x06C0 | RAM 0x80000A80 | xor      $t7, $v0, $t7
+ROM 0x06C4 | RAM 0x80000A84 | addu     $t4, $t7, $t4
+ROM 0x06C8 | RAM 0x80000A88 | lui      $t7, 0xa000
+ROM 0x06CC | RAM 0x80000A8C | ori      $t7, $t7, 0x2ff
+ROM 0x06D0 | RAM 0x80000A90 | addiu    $t1, $t1, 4
+ROM 0x06D4 | RAM 0x80000A94 | bne      $t0, $ra, 0x80000a24
+ROM 0x06D8 | RAM 0x80000A98 | and      $s6, $s6, $t7
+ROM 0x06DC | RAM 0x80000A9C | xor      $t6, $a3, $t2
+ROM 0x06E0 | RAM 0x80000AA0 | xor      $a3, $t6, $t3
+ROM 0x06E4 | RAM 0x80000AA4 | lui      $t3, 0xaa
+ROM 0x06E8 | RAM 0x80000AA8 | ori      $t3, $t3, 0xaaae
+ROM 0x06EC | RAM 0x80000AAC | lui      $at, 0xa404
+ROM 0x06F0 | RAM 0x80000AB0 | sw       $t3, 0x10($at)
+ROM 0x06F4 | RAM 0x80000AB4 | lui      $at, 0xa430
+ROM 0x06F8 | RAM 0x80000AB8 | addiu    $t0, $zero, 0x555
+ROM 0x06FC | RAM 0x80000ABC | sw       $t0, 0xc($at)
+ROM 0x0700 | RAM 0x80000AC0 | lui      $at, 0xa480
+ROM 0x0704 | RAM 0x80000AC4 | sw       $zero, 0x18($at)
+ROM 0x0708 | RAM 0x80000AC8 | lui      $at, 0xa450
+ROM 0x070C | RAM 0x80000ACC | sw       $zero, 0xc($at)
+ROM 0x0710 | RAM 0x80000AD0 | lui      $at, 0xa430
+ROM 0x0714 | RAM 0x80000AD4 | addiu    $t1, $zero, 0x800
+ROM 0x0718 | RAM 0x80000AD8 | sw       $t1, ($at)
+ROM 0x071C | RAM 0x80000ADC | addiu    $t1, $zero, 2
+ROM 0x0720 | RAM 0x80000AE0 | lui      $at, 0xa460
+ROM 0x0724 | RAM 0x80000AE4 | sw       $t1, 0x10($at)
+ROM 0x0728 | RAM 0x80000AE8 | lui      $t0, 0xa000
+ROM 0x072C | RAM 0x80000AEC | ori      $t0, $t0, 0x300
+ROM 0x0730 | RAM 0x80000AF0 | xor      $t8, $s0, $a2
+ROM 0x0734 | RAM 0x80000AF4 | addiu    $t1, $zero, 0x17d9
+ROM 0x0738 | RAM 0x80000AF8 | xor      $s0, $t8, $t4
+ROM 0x073C | RAM 0x80000AFC | sw       $t1, 0x10($t0)
+ROM 0x0740 | RAM 0x80000B00 | sw       $s4, ($t0)
+ROM 0x0744 | RAM 0x80000B04 | sw       $s3, 4($t0)
+ROM 0x0748 | RAM 0x80000B08 | sw       $s5, 0xc($t0)
+ROM 0x074C | RAM 0x80000B0C | beqz     $s3, 0x80000b20
+ROM 0x0750 | RAM 0x80000B10 | sw       $s7, 0x14($t0)
+ROM 0x0754 | RAM 0x80000B14 | lui      $t1, 0xa600
+ROM 0x0758 | RAM 0x80000B18 | b        0x80000b28
+ROM 0x075C | RAM 0x80000B1C | addiu    $t1, $t1, 0
+ROM 0x0760 | RAM 0x80000B20 | lui      $t1, 0xb000
+ROM 0x0764 | RAM 0x80000B24 | addiu    $t1, $t1, 0
+ROM 0x0768 | RAM 0x80000B28 | sw       $t1, 8($t0)
+ROM 0x076C | RAM 0x80000B2C | lw       $t1, 0xf0($t0)
+ROM 0x0770 | RAM 0x80000B30 | lui      $t3, 0xb000
+ROM 0x0774 | RAM 0x80000B34 | sw       $t1, 0x18($t0)
+ROM 0x0778 | RAM 0x80000B38 | lw       $t0, 0x10($t3)
+ROM 0x077C | RAM 0x80000B3C | bne      $a3, $t0, 0x80000b58
+ROM 0x0780 | RAM 0x80000B40 | nop      
+ROM 0x0784 | RAM 0x80000B44 | lw       $t0, 0x14($t3)
+ROM 0x0788 | RAM 0x80000B48 | bne      $s0, $t0, 0x80000b58
+ROM 0x078C | RAM 0x80000B4C | nop      
+ROM 0x0790 | RAM 0x80000B50 | bal      0x80000b60
+ROM 0x0794 | RAM 0x80000B54 | nop      
+ROM 0x0798 | RAM 0x80000B58 | bal      0x80000b58
+ROM 0x079C | RAM 0x80000B5C | nop      
+ROM 0x07A0 | RAM 0x80000B60 | lui      $t0, 0xa400
+ROM 0x07A4 | RAM 0x80000B64 | addiu    $t0, $t0, 0
+ROM 0x07A8 | RAM 0x80000B68 | lw       $s0, 0x14($sp)
+ROM 0x07AC | RAM 0x80000B6C | lw       $ra, 0x1c($sp)
+ROM 0x07B0 | RAM 0x80000B70 | addiu    $sp, $sp, 0x20
+ROM 0x07B4 | RAM 0x80000B74 | addi     $t1, $t0, 0x2000
+ROM 0x07B8 | RAM 0x80000B78 | addiu    $t0, $t0, 4
+ROM 0x07BC | RAM 0x80000B7C | bne      $t0, $t1, 0x80000b78
+ROM 0x07C0 | RAM 0x80000B80 | sw       $t1, -4($t0)
+ROM 0x07C4 | RAM 0x80000B84 | lui      $t3, 0xb000
+ROM 0x07C8 | RAM 0x80000B88 | lw       $t1, 8($t3)
+ROM 0x07CC | RAM 0x80000B8C | jr       $t1
+ROM 0x07D0 | RAM 0x80000B90 | nop      
+ROM 0x07D4 | RAM 0x80000B94 | mfc0     $t0, $a3, 0
+ROM 0x07D8 | RAM 0x80000B98 | mfc0     $t3, $at, 0
+ROM 0x07DC | RAM 0x80000B9C | lwc2     $12, 0x2000($zero)
+ROM 0x07E0 | RAM 0x80000BA0 | lw       $a0, 0x40($zero)
+ROM 0x07E4 | RAM 0x80000BA4 | nop      
+ROM 0x07E8 | RAM 0x80000BA8 | nop      
+ROM 0x07EC | RAM 0x80000BAC | mtc0     $zero, $zero, 0
+ROM 0x07F0 | RAM 0x80000BB0 | xori     $v1, $zero, 0x180
+ROM 0x07F4 | RAM 0x80000BB4 | mtc0     $v1, $at, 0
+ROM 0x07F8 | RAM 0x80000BB8 | mtc0     $zero, $v0, 0
+ROM 0x07FC | RAM 0x80000BBC | lui      $a1, 0x20
+ROM 0x0800 | RAM 0x80000BC0 | bltz     $a1, 0x80000c30
+ROM 0x0804 | RAM 0x80000BC4 | mfc0     $v1, $a3, 0
+ROM 0x0808 | RAM 0x80000BC8 | bnez     $v1, 0x80000bc0
+ROM 0x080C | RAM 0x80000BCC | addi     $a1, $a1, -1
+ROM 0x0810 | RAM 0x80000BD0 | lw       $a2, ($zero)
+ROM 0x0814 | RAM 0x80000BD4 | mtc0     $zero, $zero, 0
+ROM 0x0818 | RAM 0x80000BD8 | xori     $v1, $zero, 0x400
+ROM 0x081C | RAM 0x80000BDC | mtc0     $v1, $at, 0
+ROM 0x0820 | RAM 0x80000BE0 | xori     $v1, $zero, 0xfff
+ROM 0x0824 | RAM 0x80000BE4 | mtc0     $v1, $v0, 0
+ROM 0x0828 | RAM 0x80000BE8 | mfc0     $v1, $a2, 0
+ROM 0x082C | RAM 0x80000BEC | bnez     $v1, 0x80000be8
+ROM 0x0830 | RAM 0x80000BF0 | xori     $v1, $zero, 0xff0
+ROM 0x0838 | RAM 0x80000BF8 | lwc2     $14, 0x2000($v1)
+ROM 0x083C | RAM 0x80000BFC | addi     $v1, $v1, -0x10
+ROM 0x0840 | RAM 0x80000C00 | bgez     $v1, 0x80000bf8
+ROM 0x0848 | RAM 0x80000C08 | xori     $v1, $zero, 0xb120
+ROM 0x084C | RAM 0x80000C0C | mtc0     $v1, $zero, 0
+ROM 0x0850 | RAM 0x80000C10 | lui      $v1, 0xb12f
+ROM 0x0854 | RAM 0x80000C14 | xori     $v1, $v1, 0xb1f0
+ROM 0x0858 | RAM 0x80000C18 | mtc0     $v1, $at, 0
+ROM 0x085C | RAM 0x80000C1C | lui      $v1, 0xfe81
+ROM 0x0860 | RAM 0x80000C20 | xori     $v1, $v1, 0x7000
+ROM 0x0864 | RAM 0x80000C24 | mtc0     $v1, $v1, 0
+ROM 0x0868 | RAM 0x80000C28 | xori     $v1, $zero, 0x240
+ROM 0x086C | RAM 0x80000C2C | mtc0     $v1, $t3, 0
+ROM 0x0870 | RAM 0x80000C30 | break    
+ROM 0x0874 | RAM 0x80000C34 | nop      
+ROM 0x0878 | RAM 0x80000C38 | nop      
+ROM 0x087C | RAM 0x80000C3C | addiu    $sp, $sp, -0xa0
+ROM 0x0880 | RAM 0x80000C40 | sw       $s0, 0x40($sp)
+ROM 0x0884 | RAM 0x80000C44 | sw       $s1, 0x44($sp)
+ROM 0x0888 | RAM 0x80000C48 | move     $s1, $zero
+ROM 0x088C | RAM 0x80000C4C | move     $s0, $zero
+ROM 0x0890 | RAM 0x80000C50 | sw       $v0, ($sp)
+ROM 0x0894 | RAM 0x80000C54 | sw       $v1, 4($sp)
+ROM 0x0898 | RAM 0x80000C58 | sw       $a0, 8($sp)
+ROM 0x089C | RAM 0x80000C5C | sw       $a1, 0xc($sp)
+ROM 0x08A0 | RAM 0x80000C60 | sw       $a2, 0x10($sp)
+ROM 0x08A4 | RAM 0x80000C64 | sw       $a3, 0x14($sp)
+ROM 0x08A8 | RAM 0x80000C68 | sw       $t0, 0x18($sp)
+ROM 0x08AC | RAM 0x80000C6C | sw       $t1, 0x1c($sp)
+ROM 0x08B0 | RAM 0x80000C70 | sw       $t2, 0x20($sp)
+ROM 0x08B4 | RAM 0x80000C74 | sw       $t3, 0x24($sp)
+ROM 0x08B8 | RAM 0x80000C78 | sw       $t4, 0x28($sp)
+ROM 0x08BC | RAM 0x80000C7C | sw       $t5, 0x2c($sp)
+ROM 0x08C0 | RAM 0x80000C80 | sw       $t6, 0x30($sp)
+ROM 0x08C4 | RAM 0x80000C84 | sw       $t7, 0x34($sp)
+ROM 0x08C8 | RAM 0x80000C88 | sw       $t8, 0x38($sp)
+ROM 0x08CC | RAM 0x80000C8C | sw       $t9, 0x3c($sp)
+ROM 0x08D0 | RAM 0x80000C90 | sw       $s2, 0x48($sp)
+ROM 0x08D4 | RAM 0x80000C94 | sw       $s3, 0x4c($sp)
+ROM 0x08D8 | RAM 0x80000C98 | sw       $s4, 0x50($sp)
+ROM 0x08DC | RAM 0x80000C9C | sw       $s5, 0x54($sp)
+ROM 0x08E0 | RAM 0x80000CA0 | sw       $s6, 0x58($sp)
+ROM 0x08E4 | RAM 0x80000CA4 | sw       $s7, 0x5c($sp)
+ROM 0x08E8 | RAM 0x80000CA8 | sw       $fp, 0x60($sp)
+ROM 0x08EC | RAM 0x80000CAC | sw       $ra, 0x64($sp)
+ROM 0x08F0 | RAM 0x80000CB0 | jal      0x84000984
+ROM 0x08F4 | RAM 0x80000CB4 | nop      
+ROM 0x08F8 | RAM 0x80000CB8 | addiu    $s0, $s0, 1
+ROM 0x08FC | RAM 0x80000CBC | slti     $t1, $s0, 4
+ROM 0x0900 | RAM 0x80000CC0 | bnez     $t1, 0x80000cb0
+ROM 0x0904 | RAM 0x80000CC4 | addu     $s1, $s1, $v0
+ROM 0x0908 | RAM 0x80000CC8 | srl      $a0, $s1, 2
+ROM 0x090C | RAM 0x80000CCC | jal      0x84000b44
+ROM 0x0910 | RAM 0x80000CD0 | addiu    $a1, $zero, 1
+ROM 0x0914 | RAM 0x80000CD4 | lw       $ra, 0x64($sp)
+ROM 0x0918 | RAM 0x80000CD8 | srl      $v0, $s1, 2
+ROM 0x091C | RAM 0x80000CDC | lw       $s1, 0x44($sp)
+ROM 0x0920 | RAM 0x80000CE0 | lw       $v1, 4($sp)
+ROM 0x0924 | RAM 0x80000CE4 | lw       $a0, 8($sp)
+ROM 0x0928 | RAM 0x80000CE8 | lw       $a1, 0xc($sp)
+ROM 0x092C | RAM 0x80000CEC | lw       $a2, 0x10($sp)
+ROM 0x0930 | RAM 0x80000CF0 | lw       $a3, 0x14($sp)
+ROM 0x0934 | RAM 0x80000CF4 | lw       $t0, 0x18($sp)
+ROM 0x0938 | RAM 0x80000CF8 | lw       $t1, 0x1c($sp)
+ROM 0x093C | RAM 0x80000CFC | lw       $t2, 0x20($sp)
+ROM 0x0940 | RAM 0x80000D00 | lw       $t3, 0x24($sp)
+ROM 0x0944 | RAM 0x80000D04 | lw       $t4, 0x28($sp)
+ROM 0x0948 | RAM 0x80000D08 | lw       $t5, 0x2c($sp)
+ROM 0x094C | RAM 0x80000D0C | lw       $t6, 0x30($sp)
+ROM 0x0950 | RAM 0x80000D10 | lw       $t7, 0x34($sp)
+ROM 0x0954 | RAM 0x80000D14 | lw       $t8, 0x38($sp)
+ROM 0x0958 | RAM 0x80000D18 | lw       $t9, 0x3c($sp)
+ROM 0x095C | RAM 0x80000D1C | lw       $s0, 0x40($sp)
+ROM 0x0960 | RAM 0x80000D20 | lw       $s2, 0x48($sp)
+ROM 0x0964 | RAM 0x80000D24 | lw       $s3, 0x4c($sp)
+ROM 0x0968 | RAM 0x80000D28 | lw       $s4, 0x50($sp)
+ROM 0x096C | RAM 0x80000D2C | lw       $s5, 0x54($sp)
+ROM 0x0970 | RAM 0x80000D30 | lw       $s6, 0x58($sp)
+ROM 0x0974 | RAM 0x80000D34 | lw       $s7, 0x5c($sp)
+ROM 0x0978 | RAM 0x80000D38 | lw       $fp, 0x60($sp)
+ROM 0x097C | RAM 0x80000D3C | jr       $ra
+ROM 0x0980 | RAM 0x80000D40 | addiu    $sp, $sp, 0xa0
+ROM 0x0984 | RAM 0x80000D44 | addiu    $sp, $sp, -0x20
+ROM 0x0988 | RAM 0x80000D48 | sw       $ra, 0x1c($sp)
+ROM 0x098C | RAM 0x80000D4C | move     $t1, $zero
+ROM 0x0990 | RAM 0x80000D50 | move     $t3, $zero
+ROM 0x0994 | RAM 0x80000D54 | move     $t4, $zero
+ROM 0x0998 | RAM 0x80000D58 | slti     $k0, $t4, 0x40
+ROM 0x099C | RAM 0x80000D5C | beql     $k0, $zero, 0x80000dc0
+ROM 0x09A0 | RAM 0x80000D60 | move     $v0, $zero
+ROM 0x09A4 | RAM 0x80000D64 | jal      0x84000a10
+ROM 0x09A8 | RAM 0x80000D68 | move     $a0, $t4
+ROM 0x09AC | RAM 0x80000D6C | blezl    $v0, 0x80000d90
+ROM 0x09B0 | RAM 0x80000D70 | slti     $k0, $t1, 0x50
+ROM 0x09B4 | RAM 0x80000D74 | subu     $k0, $v0, $t1
+ROM 0x09B8 | RAM 0x80000D78 | multu    $k0, $t4
+ROM 0x09BC | RAM 0x80000D7C | move     $t1, $v0
+ROM 0x09C0 | RAM 0x80000D80 | mflo     $k0
+ROM 0x09C4 | RAM 0x80000D84 | addu     $t3, $t3, $k0
+ROM 0x09C8 | RAM 0x80000D88 | nop      
+ROM 0x09CC | RAM 0x80000D8C | slti     $k0, $t1, 0x50
+ROM 0x09D0 | RAM 0x80000D90 | bnez     $k0, 0x80000d58
+ROM 0x09D4 | RAM 0x80000D94 | addiu    $t4, $t4, 1
+ROM 0x09D8 | RAM 0x80000D98 | sll      $a0, $t3, 2
+ROM 0x09DC | RAM 0x80000D9C | subu     $a0, $a0, $t3
+ROM 0x09E0 | RAM 0x80000DA0 | sll      $a0, $a0, 2
+ROM 0x09E4 | RAM 0x80000DA4 | subu     $a0, $a0, $t3
+ROM 0x09E8 | RAM 0x80000DA8 | sll      $a0, $a0, 1
+ROM 0x09EC | RAM 0x80000DAC | jal      0x84000a84
+ROM 0x09F0 | RAM 0x80000DB0 | addiu    $a0, $a0, -0x370
+ROM 0x09F4 | RAM 0x80000DB4 | b        0x80000dc4
+ROM 0x09F8 | RAM 0x80000DB8 | lw       $ra, 0x1c($sp)
+ROM 0x09FC | RAM 0x80000DBC | move     $v0, $zero
+ROM 0x0A00 | RAM 0x80000DC0 | lw       $ra, 0x1c($sp)
+ROM 0x0A04 | RAM 0x80000DC4 | addiu    $sp, $sp, 0x20
+ROM 0x0A08 | RAM 0x80000DC8 | jr       $ra
+ROM 0x0A0C | RAM 0x80000DCC | nop      
+ROM 0x0A10 | RAM 0x80000DD0 | addiu    $sp, $sp, -0x28
+ROM 0x0A14 | RAM 0x80000DD4 | sw       $ra, 0x1c($sp)
+ROM 0x0A18 | RAM 0x80000DD8 | move     $v0, $zero
+ROM 0x0A1C | RAM 0x80000DDC | jal      0x84000b44
+ROM 0x0A20 | RAM 0x80000DE0 | addiu    $a1, $zero, 2
+ROM 0x0A24 | RAM 0x80000DE4 | move     $fp, $zero
+ROM 0x0A28 | RAM 0x80000DE8 | addiu    $k0, $zero, -1
+ROM 0x0A2C | RAM 0x80000DEC | sw       $k0, 4($s4)
+ROM 0x0A30 | RAM 0x80000DF0 | lw       $v1, 4($s4)
+ROM 0x0A34 | RAM 0x80000DF4 | sw       $k0, ($s4)
+ROM 0x0A38 | RAM 0x80000DF8 | sw       $k0, ($s4)
+ROM 0x0A3C | RAM 0x80000DFC | move     $gp, $zero
+ROM 0x0A40 | RAM 0x80000E00 | srl      $v1, $v1, 0x10
+ROM 0x0A44 | RAM 0x80000E04 | andi     $k0, $v1, 1
+ROM 0x0A48 | RAM 0x80000E08 | beql     $k0, $zero, 0x80000e18
+ROM 0x0A4C | RAM 0x80000E0C | addiu    $gp, $gp, 1
+ROM 0x0A50 | RAM 0x80000E10 | addiu    $v0, $v0, 1
+ROM 0x0A54 | RAM 0x80000E14 | addiu    $gp, $gp, 1
+ROM 0x0A58 | RAM 0x80000E18 | slti     $k0, $gp, 8
+ROM 0x0A5C | RAM 0x80000E1C | bnez     $k0, 0x80000e04
+ROM 0x0A60 | RAM 0x80000E20 | srl      $v1, $v1, 1
+ROM 0x0A64 | RAM 0x80000E24 | addiu    $fp, $fp, 1
+ROM 0x0A68 | RAM 0x80000E28 | slti     $k0, $fp, 0xa
+ROM 0x0A6C | RAM 0x80000E2C | bnel     $k0, $zero, 0x80000dec
+ROM 0x0A70 | RAM 0x80000E30 | addiu    $k0, $zero, -1
+ROM 0x0A74 | RAM 0x80000E34 | lw       $ra, 0x1c($sp)
+ROM 0x0A78 | RAM 0x80000E38 | addiu    $sp, $sp, 0x28
+ROM 0x0A7C | RAM 0x80000E3C | jr       $ra
+ROM 0x0A80 | RAM 0x80000E40 | nop      
+ROM 0x0A84 | RAM 0x80000E44 | addiu    $sp, $sp, -0x28
+ROM 0x0A88 | RAM 0x80000E48 | sw       $ra, 0x1c($sp)
+ROM 0x0A8C | RAM 0x80000E4C | sw       $a0, 0x20($sp)
+ROM 0x0A90 | RAM 0x80000E50 | sb       $zero, 0x27($sp)
+ROM 0x0A94 | RAM 0x80000E54 | move     $t0, $zero
+ROM 0x0A98 | RAM 0x80000E58 | move     $t2, $zero
+ROM 0x0A9C | RAM 0x80000E5C | ori      $t5, $zero, 0xc800
+ROM 0x0AA0 | RAM 0x80000E60 | move     $t6, $zero
+ROM 0x0AA4 | RAM 0x80000E64 | slti     $k0, $t6, 0x40
+ROM 0x0AA8 | RAM 0x80000E68 | bnel     $k0, $zero, 0x80000e7c
+ROM 0x0AAC | RAM 0x80000E6C | move     $a0, $t6
+ROM 0x0AB0 | RAM 0x80000E70 | b        0x80000ef4
+ROM 0x0AB4 | RAM 0x80000E74 | move     $v0, $zero
+ROM 0x0AB8 | RAM 0x80000E78 | move     $a0, $t6
+ROM 0x0ABC | RAM 0x80000E7C | jal      0x84000b44
+ROM 0x0AC0 | RAM 0x80000E80 | addiu    $a1, $zero, 1
+ROM 0x0AC4 | RAM 0x80000E84 | jal      0x84000bd4
+ROM 0x0AC8 | RAM 0x80000E88 | addiu    $a0, $sp, 0x27
+ROM 0x0ACC | RAM 0x80000E8C | jal      0x84000bd4
+ROM 0x0AD0 | RAM 0x80000E90 | addiu    $a0, $sp, 0x27
+ROM 0x0AD4 | RAM 0x80000E94 | lbu      $k0, 0x27($sp)
+ROM 0x0AD8 | RAM 0x80000E98 | addiu    $k1, $zero, 0x320
+ROM 0x0ADC | RAM 0x80000E9C | lw       $a0, 0x20($sp)
+ROM 0x0AE0 | RAM 0x80000EA0 | multu    $k0, $k1
+ROM 0x0AE4 | RAM 0x80000EA4 | mflo     $t0
+ROM 0x0AE8 | RAM 0x80000EA8 | subu     $k0, $t0, $a0
+ROM 0x0AEC | RAM 0x80000EAC | bgezl    $k0, 0x80000ebc
+ROM 0x0AF0 | RAM 0x80000EB0 | slt      $k1, $k0, $t5
+ROM 0x0AF4 | RAM 0x80000EB4 | subu     $k0, $a0, $t0
+ROM 0x0AF8 | RAM 0x80000EB8 | slt      $k1, $k0, $t5
+ROM 0x0AFC | RAM 0x80000EBC | beql     $k1, $zero, 0x80000ed0
+ROM 0x0B00 | RAM 0x80000EC0 | lw       $a0, 0x20($sp)
+ROM 0x0B04 | RAM 0x80000EC4 | move     $t5, $k0
+ROM 0x0B08 | RAM 0x80000EC8 | move     $t2, $t6
+ROM 0x0B0C | RAM 0x80000ECC | lw       $a0, 0x20($sp)
+ROM 0x0B10 | RAM 0x80000ED0 | slt      $k1, $t0, $a0
+ROM 0x0B14 | RAM 0x80000ED4 | beql     $k1, $zero, 0x80000ef0
+ROM 0x0B18 | RAM 0x80000ED8 | addu     $v0, $t2, $t6
+ROM 0x0B1C | RAM 0x80000EDC | addiu    $t6, $t6, 1
+ROM 0x0B20 | RAM 0x80000EE0 | slti     $k1, $t6, 0x41
+ROM 0x0B24 | RAM 0x80000EE4 | bnel     $k1, $zero, 0x80000e68
+ROM 0x0B28 | RAM 0x80000EE8 | slti     $k0, $t6, 0x40
+ROM 0x0B2C | RAM 0x80000EEC | addu     $v0, $t2, $t6
+ROM 0x0B30 | RAM 0x80000EF0 | srl      $v0, $v0, 1
+ROM 0x0B34 | RAM 0x80000EF4 | lw       $ra, 0x1c($sp)
+ROM 0x0B38 | RAM 0x80000EF8 | addiu    $sp, $sp, 0x28
+ROM 0x0B3C | RAM 0x80000EFC | jr       $ra
+ROM 0x0B40 | RAM 0x80000F00 | nop      
+ROM 0x0B44 | RAM 0x80000F04 | addiu    $sp, $sp, -0x28
+ROM 0x0B48 | RAM 0x80000F08 | andi     $a0, $a0, 0xff
+ROM 0x0B4C | RAM 0x80000F0C | addiu    $k1, $zero, 1
+ROM 0x0B50 | RAM 0x80000F10 | xori     $a0, $a0, 0x3f
+ROM 0x0B54 | RAM 0x80000F14 | sw       $ra, 0x1c($sp)
+ROM 0x0B58 | RAM 0x80000F18 | bne      $a1, $k1, 0x80000f28
+ROM 0x0B5C | RAM 0x80000F1C | lui      $t7, 0x4600
+ROM 0x0B60 | RAM 0x80000F20 | lui      $k0, 0x8000
+ROM 0x0B64 | RAM 0x80000F24 | or       $t7, $t7, $k0
+ROM 0x0B68 | RAM 0x80000F28 | andi     $k0, $a0, 1
+ROM 0x0B6C | RAM 0x80000F2C | sll      $k0, $k0, 6
+ROM 0x0B70 | RAM 0x80000F30 | or       $t7, $t7, $k0
+ROM 0x0B74 | RAM 0x80000F34 | andi     $k0, $a0, 2
+ROM 0x0B78 | RAM 0x80000F38 | sll      $k0, $k0, 0xd
+ROM 0x0B7C | RAM 0x80000F3C | or       $t7, $t7, $k0
+ROM 0x0B80 | RAM 0x80000F40 | andi     $k0, $a0, 4
+ROM 0x0B84 | RAM 0x80000F44 | sll      $k0, $k0, 0x14
+ROM 0x0B88 | RAM 0x80000F48 | or       $t7, $t7, $k0
+ROM 0x0B8C | RAM 0x80000F4C | andi     $k0, $a0, 8
+ROM 0x0B90 | RAM 0x80000F50 | sll      $k0, $k0, 4
+ROM 0x0B94 | RAM 0x80000F54 | or       $t7, $t7, $k0
+ROM 0x0B98 | RAM 0x80000F58 | andi     $k0, $a0, 0x10
+ROM 0x0B9C | RAM 0x80000F5C | sll      $k0, $k0, 0xb
+ROM 0x0BA0 | RAM 0x80000F60 | or       $t7, $t7, $k0
+ROM 0x0BA4 | RAM 0x80000F64 | andi     $k0, $a0, 0x20
+ROM 0x0BA8 | RAM 0x80000F68 | sll      $k0, $k0, 0x12
+ROM 0x0BAC | RAM 0x80000F6C | or       $t7, $t7, $k0
+ROM 0x0BB0 | RAM 0x80000F70 | addiu    $k1, $zero, 1
+ROM 0x0BB4 | RAM 0x80000F74 | bne      $a1, $k1, 0x80000f84
+ROM 0x0BB8 | RAM 0x80000F78 | sw       $t7, ($s5)
+ROM 0x0BBC | RAM 0x80000F7C | lui      $k0, 0xa430
+ROM 0x0BC0 | RAM 0x80000F80 | sw       $zero, ($k0)
+ROM 0x0BC4 | RAM 0x80000F84 | lw       $ra, 0x1c($sp)
+ROM 0x0BC8 | RAM 0x80000F88 | addiu    $sp, $sp, 0x28
+ROM 0x0BCC | RAM 0x80000F8C | jr       $ra
+ROM 0x0BD0 | RAM 0x80000F90 | nop      
+ROM 0x0BD4 | RAM 0x80000F94 | addiu    $sp, $sp, -0x28
+ROM 0x0BD8 | RAM 0x80000F98 | sw       $ra, 0x1c($sp)
+ROM 0x0BDC | RAM 0x80000F9C | addiu    $k0, $zero, 0x2000
+ROM 0x0BE0 | RAM 0x80000FA0 | lui      $k1, 0xa430
+ROM 0x0BE4 | RAM 0x80000FA4 | sw       $k0, ($k1)
+ROM 0x0BE8 | RAM 0x80000FA8 | move     $fp, $zero
+ROM 0x0BEC | RAM 0x80000FAC | lw       $fp, ($s5)
+ROM 0x0BF0 | RAM 0x80000FB0 | addiu    $k0, $zero, 0x1000
+ROM 0x0BF4 | RAM 0x80000FB4 | sw       $k0, ($k1)
+ROM 0x0BF8 | RAM 0x80000FB8 | addiu    $k1, $zero, 0x40
+ROM 0x0BFC | RAM 0x80000FBC | and      $k1, $k1, $fp
+ROM 0x0C00 | RAM 0x80000FC0 | srl      $k1, $k1, 6
+ROM 0x0C04 | RAM 0x80000FC4 | move     $k0, $zero
+ROM 0x0C08 | RAM 0x80000FC8 | or       $k0, $k0, $k1
+ROM 0x0C0C | RAM 0x80000FCC | addiu    $k1, $zero, 0x4000
+ROM 0x0C10 | RAM 0x80000FD0 | and      $k1, $k1, $fp
+ROM 0x0C14 | RAM 0x80000FD4 | srl      $k1, $k1, 0xd
+ROM 0x0C18 | RAM 0x80000FD8 | or       $k0, $k0, $k1
+ROM 0x0C1C | RAM 0x80000FDC | lui      $k1, 0x40
+ROM 0x0C20 | RAM 0x80000FE0 | and      $k1, $k1, $fp
+ROM 0x0C24 | RAM 0x80000FE4 | srl      $k1, $k1, 0x14
+ROM 0x0C28 | RAM 0x80000FE8 | or       $k0, $k0, $k1
+ROM 0x0C2C | RAM 0x80000FEC | addiu    $k1, $zero, 0x80
+ROM 0x0C30 | RAM 0x80000FF0 | and      $k1, $k1, $fp
+ROM 0x0C34 | RAM 0x80000FF4 | srl      $k1, $k1, 4
+ROM 0x0C38 | RAM 0x80000FF8 | or       $k0, $k0, $k1
+ROM 0x0C3C | RAM 0x80000FFC | ori      $k1, $zero, 0x8000
+ROM 0x0C40 | RAM 0x80001000 | and      $k1, $k1, $fp
+ROM 0x0C44 | RAM 0x80001004 | srl      $k1, $k1, 0xb
+ROM 0x0C48 | RAM 0x80001008 | or       $k0, $k0, $k1
+ROM 0x0C4C | RAM 0x8000100C | lui      $k1, 0x80
+ROM 0x0C50 | RAM 0x80001010 | and      $k1, $k1, $fp
+ROM 0x0C54 | RAM 0x80001014 | srl      $k1, $k1, 0x12
+ROM 0x0C58 | RAM 0x80001018 | or       $k0, $k0, $k1
+ROM 0x0C5C | RAM 0x8000101C | sb       $k0, ($a0)
+ROM 0x0C60 | RAM 0x80001020 | lw       $ra, 0x1c($sp)
+ROM 0x0C64 | RAM 0x80001024 | addiu    $sp, $sp, 0x28
+ROM 0x0C68 | RAM 0x80001028 | jr       $ra
+ROM 0x0C6C | RAM 0x8000102C | nop      
+ROM 0x0C70 | RAM 0x80001030 | mfc0     $gp, $a2, 0
+ROM 0x0C74 | RAM 0x80001034 | bnez     $gp, 0x80001030
+ROM 0x0C78 | RAM 0x80001038 | xori     $at, $zero, 0xb120
+ROM 0x0C7C | RAM 0x8000103C | mtc0     $at, $zero, 0
+ROM 0x0C80 | RAM 0x80001040 | mfc0     $t0, $a3, 0
+ROM 0x0C84 | RAM 0x80001044 | mfc0     $t3, $at, 0
+ROM 0x0C88 | RAM 0x80001048 | mfc0     $t2, $t4, 0
+ROM 0x0C8C | RAM 0x8000104C | lw       $a0, 0x40($zero)
+ROM 0x0C90 | RAM 0x80001050 | lui      $fp, 0xb12f
+ROM 0x0C94 | RAM 0x80001054 | xori     $fp, $fp, 0xb1f0
+ROM 0x0C98 | RAM 0x80001058 | mtc0     $fp, $at, 0
+ROM 0x0C9C | RAM 0x8000105C | lui      $v1, 0xfe81
+ROM 0x0CA0 | RAM 0x80001060 | xori     $v1, $v1, 0x7000
+ROM 0x0CA4 | RAM 0x80001064 | mtc0     $v1, $v1, 0
+ROM 0x0CA8 | RAM 0x80001068 | xori     $t1, $zero, 0x240
+ROM 0x0CAC | RAM 0x8000106C | mtc0     $t1, $t3, 0
+ROM 0x0CB0 | RAM 0x80001070 | lui      $a1, 0x7fff
+ROM 0x0CB4 | RAM 0x80001074 | ori      $a1, $a1, 0
+ROM 0x0CB8 | RAM 0x80001078 | bltz     $a1, 0x80001088
+ROM 0x0CBC | RAM 0x8000107C | mfc0     $a2, $a3, 0
+ROM 0x0CC0 | RAM 0x80001080 | beqz     $a2, 0x80001088
+ROM 0x0CC4 | RAM 0x80001084 | addi     $a1, $a1, -1
+ROM 0x0CC8 | RAM 0x80001088 | break    
+ROM 0x0CCC | RAM 0x8000108C | nop      
+ROM 0x0CD0 | RAM 0x80001090 | nop      
+ROM 0x0CD4 | RAM 0x80001094 | nop      
+ROM 0x0CD8 | RAM 0x80001098 | nop      
+ROM 0x0CDC | RAM 0x8000109C | nop      
+ROM 0x0CE0 | RAM 0x800010A0 | nop      
+ROM 0x0CE4 | RAM 0x800010A4 | nop      
+ROM 0x0CE8 | RAM 0x800010A8 | nop      
+ROM 0x0CEC | RAM 0x800010AC | nop      
+ROM 0x0CF8 | RAM 0x800010B8 | sdc2     $20, -0x943($k0)
+ROM 0x0D00 | RAM 0x800010C0 | lh       $at, -0x40cf($t8)
+ROM 0x0D08 | RAM 0x800010C8 | bz.d     $w7, 0x8001aae8
+ROM 0x0D14 | RAM 0x800010D4 | ld.h     $w22, -0x5c($s0)
+ROM 0x0D18 | RAM 0x800010D8 | ldc2     $28, 0x5455($at)
+ROM 0x0D1C | RAM 0x800010DC | sltiu    $s7, $t9, -0x519b
+ROM 0x0D24 | RAM 0x800010E4 | lwr      $t4, -0x1ce6($a2)
+ROM 0x0D28 | RAM 0x800010E8 | jalx     0x8a397f64
+ROM 0x0D2C | RAM 0x800010EC | lwr      $t7, 0x1f3f($t4)
+ROM 0x0D30 | RAM 0x800010F0 | ori      $t6, $s7, 0x4378
+ROM 0x0D34 | RAM 0x800010F4 | bc3t     $cc3, 0x7ffffbf0
+ROM 0x0D38 | RAM 0x800010F8 | sh       $k0, -0x1b7a($s6)
+ROM 0x0D3C | RAM 0x800010FC | lw       $gp, 0x296d($s6)
+ROM 0x0D4C | RAM 0x8000110C | lwc1     $f9, -0x23ad($t0)
+ROM 0x0D50 | RAM 0x80001110 | pref     0xa, 0x3b48($t5)
+ROM 0x0D54 | RAM 0x80001114 | lwr      $s2, -0x2cae($t2)
+ROM 0x0D60 | RAM 0x80001120 | lwr      $t1, -0x4dff($v0)
+ROM 0x0D68 | RAM 0x80001128 | andi     $gp, $t4, 0x5246
+ROM 0x0D6C | RAM 0x8000112C | lhu      $s1, 0x368f($t3)
+ROM 0x0D70 | RAM 0x80001130 | bnel     $ra, $s6, 0x8000f5a8
+ROM 0x0D74 | RAM 0x80001134 | bne      $s7, $k0, 0x7ffe3308
+ROM 0x0D78 | RAM 0x80001138 | sdc1     $f24, 0x7c17($t4)
+ROM 0x0D88 | RAM 0x80001148 | sltiu    $s3, $t9, 0x3d91
+ROM 0x0D8C | RAM 0x8000114C | ll       $sp, -0x5af3($zero)
+ROM 0x0D90 | RAM 0x80001150 | jal      0x86acce34
+ROM 0x0D98 | RAM 0x80001158 | swc1     $f8, 0x74a6($s3)
+ROM 0x0D9C | RAM 0x8000115C | xori     $s1, $s5, 0xc393
+ROM 0x0DA0 | RAM 0x80001160 | beq      $t5, $t0, 0x8001a480
+ROM 0x0DA4 | RAM 0x80001164 | ldc2     $10, -0x1fa0($fp)
+ROM 0x0DA8 | RAM 0x80001168 | sc       $s3, -0x40f7($t7)
+ROM 0x0DB0 | RAM 0x80001170 | addiu    $zero, $t5, 0x2131
+ROM 0x0DB4 | RAM 0x80001174 | lh       $s5, 0x62c5($fp)
+ROM 0x0DB8 | RAM 0x80001178 | swl      $t7, 0x7e2e($v0)
+ROM 0x0DBC | RAM 0x8000117C | j        0x85ae527c
+ROM 0x0DC8 | RAM 0x80001188 | lb       $s6, -0x30b9($a1)
+ROM 0x0DCC | RAM 0x8000118C | jal      0x829a94a8
+ROM 0x0DD0 | RAM 0x80001190 | ldc2     $12, -0x460($a1)
+ROM 0x0DD4 | RAM 0x80001194 | swc2     $23, 0x7924($sp)
+ROM 0x0DDC | RAM 0x8000119C | lb       $a1, -0x5959($a2)
+ROM 0x0DE0 | RAM 0x800011A0 | lh       $s7, -0x2874($t5)
+ROM 0x0DE4 | RAM 0x800011A4 | lbu      $a0, -0x549d($a3)
+
+--- REGION 02 ROM 0x0DFC-0x0E17 (28 bytes) ---
+ROM 0x0DFC | RAM 0x800011BC | bnel     $t8, $t9, 0x8001d8cc
+ROM 0x0E00 | RAM 0x800011C0 | lwc2     $30, -0x1ad6($s2)
+ROM 0x0E04 | RAM 0x800011C4 | andi     $t4, $sp, 0x8851
+ROM 0x0E14 | RAM 0x800011D4 | sb       $sp, 0x51c5($zero)
+
+--- REGION 03 ROM 0x0E2C-0x0F0B (224 bytes) ---
+ROM 0x0E2C | RAM 0x800011EC | addiu    $s3, $gp, 0x7d92
+ROM 0x0E30 | RAM 0x800011F0 | ll       $s4, -0x395b($fp)
+ROM 0x0E38 | RAM 0x800011F8 | xori     $a3, $a1, 0xbff1
+ROM 0x0E40 | RAM 0x80001200 | lb       $ra, -0x7c2b($zero)
+ROM 0x0E44 | RAM 0x80001204 | sh       $t1, -0x7784($v1)
+ROM 0x0E4C | RAM 0x8000120C | lbu      $s7, 0x458b($t8)
+ROM 0x0E50 | RAM 0x80001210 | beq      $s5, $s2, 0x80001ae0
+ROM 0x0E58 | RAM 0x80001218 | bnel     $s5, $a0, 0x7ffec724
+ROM 0x0E64 | RAM 0x80001224 | sc       $t7, -0x6416($t0)
+ROM 0x0E68 | RAM 0x80001228 | addiu    $t4, $s1, 0x61dc
+ROM 0x0E70 | RAM 0x80001230 | bnez     $a3, 0x80002048
+ROM 0x0E78 | RAM 0x80001238 | lhu      $t0, 0x7d1c($s6)
+ROM 0x0E80 | RAM 0x80001240 | lbu      $s0, 0x435f($s3)
+ROM 0x0E88 | RAM 0x80001248 | swc2     $19, 0x2035($sp)
+ROM 0x0E90 | RAM 0x80001250 | tltu     $t1, $s6, 0x300
+ROM 0x0E94 | RAM 0x80001254 | sc       $t7, -0x36c8($t0)
+ROM 0x0E98 | RAM 0x80001258 | sltiu    $t1, $s7, 0x2919
+ROM 0x0EA8 | RAM 0x80001268 | addiu    $a1, $t1, 0x357b
+ROM 0x0EAC | RAM 0x8000126C | jal      0x8446bd30
+ROM 0x0EB0 | RAM 0x80001270 | beq      $t4, $t4, 0x8000ddc4
+ROM 0x0EB4 | RAM 0x80001274 | ldc2     $31, -0x27ea($s3)
+ROM 0x0EB8 | RAM 0x80001278 | bnel     $ra, $at, 0x7ffeadb4
+ROM 0x0EC0 | RAM 0x80001280 | cache    0x13, -0x1b79($t8)
+ROM 0x0EC8 | RAM 0x80001288 | jal      0x8166651c
+ROM 0x0EDC | RAM 0x8000129C | bne      $a0, $a1, 0x7ffec160
+ROM 0x0EE0 | RAM 0x800012A0 | sltiu    $fp, $a2, 0x3593
+ROM 0x0EE4 | RAM 0x800012A4 | beq      $t1, $t5, 0x80001718
+ROM 0x0EE8 | RAM 0x800012A8 | ldc1     $f8, 0x4330($t9)
+ROM 0x0EEC | RAM 0x800012AC | swc1     $f16, 0x8ed($sp)
+ROM 0x0EF0 | RAM 0x800012B0 | subsuu_s.b $w13, $w2, $w25
+ROM 0x0EFC | RAM 0x800012BC | lwc2     $3, 0x22d2($s0)
+ROM 0x0F00 | RAM 0x800012C0 | lwc2     $6, 0x270f($t6)
+ROM 0x0F04 | RAM 0x800012C4 | tnei     $a2, 0x7a3f
+ROM 0x0F08 | RAM 0x800012C8 | ll       $t0, 0x2ccf($v1)
+
+--- REGION 04 ROM 0x0F20-0x0FFF (224 bytes) ---
+ROM 0x0F20 | RAM 0x800012E0 | pref     2, -0x4e6e($a1)
+ROM 0x0F30 | RAM 0x800012F0 | jal      0x871d96f8
+ROM 0x0F38 | RAM 0x800012F8 | synci    0x35c7($s7)
+ROM 0x0F3C | RAM 0x800012FC | jalx     0x8a2577d0
+ROM 0x0F44 | RAM 0x80001304 | bnel     $v1, $fp, 0x7fffd75c
+ROM 0x0F48 | RAM 0x80001308 | lwc2     $0, -0x6671($a1)
+ROM 0x0F50 | RAM 0x80001310 | bne      $a2, $a2, 0x7fffa73c
+ROM 0x0F60 | RAM 0x80001320 | swc1     $f22, 0x6f0f($gp)
+ROM 0x0F64 | RAM 0x80001324 | addi     $sp, $t1, -0x2007
+ROM 0x0F68 | RAM 0x80001328 | bnel     $k0, $a3, 0x80004aa8
+ROM 0x0F6C | RAM 0x8000132C | slti     $t2, $k1, -0x389
+ROM 0x0F70 | RAM 0x80001330 | lw       $s5, -0x1627($t6)
+ROM 0x0F74 | RAM 0x80001334 | sdc2     $21, -0x1f15($t5)
+ROM 0x0F84 | RAM 0x80001344 | sdc2     $11, -0x1a0a($t8)
+ROM 0x0F88 | RAM 0x80001348 | swc1     $f0, -0x60bb($a2)
+ROM 0x0F8C | RAM 0x8000134C | ldc1     $f10, -0x7c41($s1)
+ROM 0x0F94 | RAM 0x80001354 | cache    0xc, -0x2121($gp)
+ROM 0x0FA8 | RAM 0x80001368 | sh       $v1, 0x4858($t7)
+ROM 0x0FAC | RAM 0x8000136C | bne      $t0, $a3, 0x800072f0
+ROM 0x0FB0 | RAM 0x80001370 | swr      $a1, 0x5f63($t4)
+ROM 0x0FB4 | RAM 0x80001374 | swl      $s6, 0x2912($a3)
+ROM 0x0FC0 | RAM 0x80001380 | lwl      $a0, 0x3b5d($fp)
+ROM 0x0FC4 | RAM 0x80001384 | swr      $s5, 0x18a2($t9)
+ROM 0x0FCC | RAM 0x8000138C | sb       $t9, 0x30f2($v0)
+ROM 0x0FD0 | RAM 0x80001390 | ldc2     $21, -0x3eb3($fp)
+ROM 0x0FDC | RAM 0x8000139C | sb       $s2, 0xde5($gp)
+ROM 0x0FE0 | RAM 0x800013A0 | lbu      $s1, -0x4f7a($zero)
+ROM 0x0FE4 | RAM 0x800013A4 | jal      0x8d04d200
+ROM 0x0FE8 | RAM 0x800013A8 | sh       $t1, -0x4217($s4)
+ROM 0x0FEC | RAM 0x800013AC | sltiu    $t8, $k1, 0x470d
+ROM 0x0FF0 | RAM 0x800013B0 | nop      
+ROM 0x0FF4 | RAM 0x800013B4 | nop      
+ROM 0x0FF8 | RAM 0x800013B8 | nop      
+ROM 0x0FFC | RAM 0x800013BC | nop      
+
+========================================================================
+RESUMEN
+========================================================================
+ROM:                    33,554,432 bytes
+Boot:                   4032 bytes
+Instrucciones MIPS:     921
+Regiones detectadas:    4
+Referencias ROM:        37
+
+IMPORTANTE:
+Las regiones son heuristicas.
+No deben utilizarse aun como segmentos definitivos del ELF.
+========================================================================
