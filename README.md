@@ -1,6 +1,6 @@
 # 🌌 Jet Force Gemini - Static Recompilation Port
 
-Este proyecto busca crear un **port nativo para PC** del clásico de Nintendo 64 **Jet Force Gemini**, utilizando tecnología de recompilación estática automatizada.
+Este proyecto busca crear un **port nativo para PC** del clásico de Nintendo 64 **Jet Force Gemini**, utilizando tecnología de recompilación estática automatizada. Creada por hobby en mi tiempo libre y como aprendizaje para crear un entorno automatizado o semiautomatizado por IA
 
 El objetivo principal es lograr que el juego se ejecute de forma nativa en sistemas modernos (Windows/Linux) sin necesidad de emulación tradicional, permitiendo mejoras de rendimiento, soporte para resoluciones modernas y tasas de cuadros por segundo desbloqueadas.
 
