@@ -13,7 +13,7 @@ END_MARKER = "<!-- PROGRESS:END -->"
 def make_progress_bar(value, width=20):
     value = max(0.0, min(100.0, value))
     filled = round((value / 100) * width)
-    return "█" * filled + "░" * (width - filled)
+    return "■" * filled + "□" * (width - filled)
 
 
 def main():

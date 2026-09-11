@@ -22,11 +22,11 @@ El objetivo principal es lograr que el juego se ejecute de forma nativa en siste
 ### Progreso visual
 
 ```text
-Decompilación        [███░░░░░░░░░░░░░░░░░] 15.60%
-Funciones analizadas [██░░░░░░░░░░░░░░░░░░] 10.14%
-Funciones exitosas   [██░░░░░░░░░░░░░░░░░░] 10.13%
-Jump Tables          [████████████████████] 98.18%
-Relocations          [░░░░░░░░░░░░░░░░░░░░] 0.00%
+Decompilación        [■■■□□□□□□□□□□□□□□□□□] 15.60%
+Funciones analizadas [■■□□□□□□□□□□□□□□□□□□] 10.14%
+Funciones exitosas   [■■□□□□□□□□□□□□□□□□□□] 10.13%
+Jump Tables          [■■■■■■■■■■■■■■■■■■■■] 98.18%
+Relocations          [□□□□□□□□□□□□□□□□□□□□] 0.00%
 ```
 
 ### Funciones
