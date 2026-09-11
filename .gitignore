@@ -1,6 +1,7 @@
 /rom/
 /src/
 /build/
+N64Recomp-JFG/
 *.z64
 *.v64
 *.n64
