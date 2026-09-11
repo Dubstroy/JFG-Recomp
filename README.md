@@ -5,77 +5,60 @@ Este proyecto busca crear un **port nativo para PC** del clásico de Nintendo 64
 El objetivo principal es lograr que el juego se ejecute de forma nativa en sistemas modernos (Windows/Linux) sin necesidad de emulación tradicional, permitiendo mejoras de rendimiento, soporte para resoluciones modernas y tasas de cuadros por segundo desbloqueadas.
 
 ---
+<!-- PROGRESS:START -->
 
 ## 📊 Progreso del Proyecto
 
-> **Estado actual:** 🟡 IN DEVELOPMENT
+**Estado:** 🟡 `IN DEVELOPMENT`
 
-El progreso se calcula a partir de métricas reales obtenidas durante el proceso de recompilación y análisis del proyecto.
+| Área | Progreso |
+|---|---:|
+| Decompilación | **15.60%** |
+| Análisis de funciones | **10.14%** |
+| Funciones exitosas | **10.13%** |
+| Jump Tables | **98.18%** |
+| Relocations | **0.00%** |
 
-### 🎯 Progreso general
-
-| Área                  |   Progreso |             Estado             |
-| --------------------- | ---------: | :----------------------------: |
-| Análisis de funciones | **10.14%** |        🟡 En desarrollo        |
-| Funciones exitosas    | **10.13%** |        🟡 En desarrollo        |
-| Jump tables           | **98.18%** |        🟢 Casi completo        |
-| Relocations           |  **0.00%** | ⚪ Pendiente de contabilización |
-
-### 🔧 Análisis de funciones
+### Progreso visual
 
 ```text
-Funciones analizadas
-[██████████░░░░░░░░░░] 10.14%
-1,141 / 11,253
+Decompilación        [███░░░░░░░░░░░░░░░░░] 15.60%
+Funciones analizadas [██░░░░░░░░░░░░░░░░░░] 10.14%
+Funciones exitosas   [██░░░░░░░░░░░░░░░░░░] 10.13%
+Jump Tables          [████████████████████] 98.18%
+Relocations          [░░░░░░░░░░░░░░░░░░░░] 0.00%
 ```
 
-```text
-Funciones procesadas correctamente
-[██████████░░░░░░░░░░] 10.13%
-1,140 / 11,253
-```
+### Funciones
 
-Actualmente, **1,140 de las 1,141 funciones analizadas han sido procesadas correctamente**, con un único error bloqueando el avance del análisis.
+- **Total:** 11,253
+- **Analizadas:** 1,141
+- **Exitosas:** 1,140
+- **Errores:** 1
 
-### 🔀 Jump Tables
+### Jump Tables
 
-```text
-Jump tables resueltas
-[███████████████████░] 98.18%
-54 / 55
-```
+- **Detectadas:** 55
+- **Resueltas:** 54
 
-El análisis ha detectado **55 jump tables**, de las cuales **54 fueron resueltas correctamente**.
+### Relocations
 
-### 🧩 Componentes
+- **Total:** 0
+- **Resueltas:** 0
 
-| Componente    | Progreso |
-| ------------- | -------: |
-| ELF Analysis  | **100%** |
-| MIPS Analysis |   **0%** |
-| C Generation  |   **0%** |
-| Native Build  |   **0%** |
-| Runtime       |   **0%** |
+### Componentes
 
-> Los componentes posteriores al análisis MIPS permanecerán en 0% hasta que el proyecto llegue a esas etapas. No representan estimaciones arbitrarias.
+| Componente | Progreso |
+|---|---:|
+| ELF Analysis | **100.00%** |
+| MIPS Analysis | **0.00%** |
+| C Generation | **0.00%** |
+| Native Build | **0.00%** |
+| Runtime | **0.00%** |
 
-### 🚧 Bloqueador actual
+**Última actualización:** `2026-09-11`
 
-El análisis actual se detiene en:
-
-```text
-func_80074B50
-```
-
-debido a una jump table cuyo tamaño todavía no puede determinarse:
-
-```text
-Failed to determine size of jump table at
-0x800A7478 for instruction at 0x80074E2C
-```
-
-Este problema está siendo investigado antes de continuar con las siguientes etapas de generación y compilación.
-
+<!-- PROGRESS:END -->
 
 ## 🛠️ Tecnologías Utilizadas
 
