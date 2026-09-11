@@ -1,0 +1,34 @@
+{
+    "project": {
+        "status": "IN DEVELOPMENT",
+        "last_update": "2026-09-11"
+    },
+    "decompilation": {
+        "progress": 15.6
+    },
+    "functions": {
+        "total": 11253,
+        "analyzed": 1141,
+        "successful": 1140,
+        "errors": 1,
+        "analysis_progress": 10.14,
+        "success_progress": 10.13
+    },
+    "jump_tables": {
+        "detected": 55,
+        "resolved": 54,
+        "progress": 98.18
+    },
+    "relocations": {
+        "total": 0,
+        "resolved": 0,
+        "progress": 0.0
+    },
+    "components": {
+        "elf_analysis": 100,
+        "mips_analysis": 0,
+        "c_generation": 0,
+        "native_build": 0,
+        "runtime": 0
+    }
+}
