@@ -16,7 +16,6 @@ El progreso se calcula a partir de métricas reales obtenidas durante el proceso
 
 | Área                  |   Progreso |             Estado             |
 | --------------------- | ---------: | :----------------------------: |
-| Decompilación         | **15.60%** |        🟡 En desarrollo        |
 | Análisis de funciones | **10.14%** |        🟡 En desarrollo        |
 | Funciones exitosas    | **10.13%** |        🟡 En desarrollo        |
 | Jump tables           | **98.18%** |        🟢 Casi completo        |
