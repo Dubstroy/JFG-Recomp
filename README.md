@@ -77,35 +77,6 @@ Failed to determine size of jump table at
 
 Este problema está siendo investigado antes de continuar con las siguientes etapas de generación y compilación.
 
-### 📈 Actualización del progreso
-
-Las estadísticas utilizadas para el progreso se generan durante la ejecución de **N64Recomp** y se almacenan en:
-
-```text
-N64Recomp/progress_stats.json
-```
-
-El script:
-
-```text
-update_progress.py
-```
-
-toma estas estadísticas y actualiza:
-
-```text
-progress.json
-```
-
-Para actualizar las estadísticas manualmente:
-
-```cmd
-python update_progress.py
-```
-
-La integración automática con GitHub Actions está prevista para una etapa posterior.
-
----
 
 ## 🛠️ Tecnologías Utilizadas
 
