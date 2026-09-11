@@ -47,15 +47,12 @@ def main():
         return 1
 
     project = data["project"]
-    decomp = data["decompilation"]
     functions = data["functions"]
     jump_tables = data["jump_tables"]
     relocations = data["relocations"]
     components = data["components"]
 
     status = project["status"]
-
-    decomp_progress = float(decomp["progress"])
 
     functions_total = int(functions["total"])
     functions_analyzed = int(functions["analyzed"])
@@ -99,14 +96,12 @@ def main():
         f"**Estado:** 🟡 `{status}`\n\n"
         "| Área | Progreso |\n"
         "|---|---:|\n"
-        f"| Decompilación | **{decomp_progress:.2f}%** |\n"
         f"| Análisis de funciones | **{function_progress:.2f}%** |\n"
         f"| Funciones exitosas | **{successful_progress:.2f}%** |\n"
         f"| Jump Tables | **{jump_progress:.2f}%** |\n"
         f"| Relocations | **{reloc_progress:.2f}%** |\n\n"
         "### Progreso visual\n\n"
         "```text\n"
-        f"Decompilación        [{make_progress_bar(decomp_progress)}] {decomp_progress:.2f}%\n"
         f"Funciones analizadas [{make_progress_bar(function_progress)}] {function_progress:.2f}%\n"
         f"Funciones exitosas   [{make_progress_bar(successful_progress)}] {successful_progress:.2f}%\n"
         f"Jump Tables          [{make_progress_bar(jump_progress)}] {jump_progress:.2f}%\n"
@@ -149,7 +144,6 @@ def main():
 
     print("README.md updated successfully.")
     print(f"Status: {status}")
-    print(f"Decompilation: {decomp_progress:.2f}%")
     print(f"Functions: {functions_analyzed}/{functions_total}")
     print(f"Successful: {functions_successful}/{functions_total}")
     print(f"Jump Tables: {jump_resolved}/{jump_detected}")
