@@ -1,6 +1,16 @@
-[inputs]
-rom_path = "rom/JetForceGemini.z64"
-elf_path = ""
+[input]
+elf_path = "../Jet-Force-Gemini/build/jfg.us.elf"
+rom_file_path = "rom/JetForceGemini.z64"
+output_func_path = "build/generated"
+relocatable_sections_path = "relocatable_sections.txt"
+function_sizes = [
+    { name = "gen_anim_data", size = 0xFD0 },
+]
 
-[outputs]
-c_output_path = "src"
+[patches]
+renamed = ["_itoa"]
+ignored = [
+    "D_8009DA10_9E610",
+    "D_8009F250_9FE50",
+    "D_8009F3D0_9FFD0",
+]

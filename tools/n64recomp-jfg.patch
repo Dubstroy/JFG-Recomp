@@ -1,0 +1,459 @@
+diff --git a/LiveRecomp/live_generator.cpp b/LiveRecomp/live_generator.cpp
+index 61e1ff5..a0bea5b 100644
+--- a/LiveRecomp/live_generator.cpp
++++ b/LiveRecomp/live_generator.cpp
+@@ -184,6 +184,11 @@ N64Recomp::LiveGeneratorOutput N64Recomp::LiveGenerator::finish() {
+     for (auto& [labels, jump_table] : context->unlinked_jump_tables) {
+         for (size_t entry_index = 0; entry_index < labels.size(); entry_index++) {
+             sljit_label* cur_label = labels[entry_index];
++            if (cur_label == nullptr) {
++                jump_table[entry_index] = nullptr;
++                continue;
++            }
++
+             jump_table[entry_index] = reinterpret_cast<void*>(sljit_get_label_addr(cur_label));
+         }
+         ret.jump_tables.emplace_back(std::move(jump_table));
+@@ -1336,6 +1341,10 @@ void N64Recomp::LiveGenerator::emit_function_end() const {
+         std::vector<sljit_label*> cur_label_addrs{};
+         cur_label_addrs.resize(cur_labels.size());
+         for (size_t case_index = 0; case_index < cur_labels.size(); case_index++) {
++            if (cur_labels[case_index].empty()) {
++                continue;
++            }
++
+             // Find the label.
+             auto find_it = context->labels.find(cur_labels[case_index]);
+             if (find_it == context->labels.end()) {
+@@ -1592,6 +1601,9 @@ void N64Recomp::LiveGenerator::emit_switch(const Context& recompiler_context, co
+     cur_labels.resize(jtbl.entries.size());
+     for (size_t i = 0; i < cur_labels.size(); i++) {
+         cur_labels[i] = fmt::format("L_{:08X}", jtbl.entries[i]);
++        if (jtbl.entries[i] == 0) {
++            cur_labels[i].clear();
++        }
+     }
+     context->switch_jump_labels.emplace_back(std::move(cur_labels));
+ 
+@@ -1635,6 +1647,18 @@ void N64Recomp::LiveGenerator::emit_switch(const Context& recompiler_context, co
+     sljit_jump* switch_error_jump = sljit_emit_cmp(compiler, SLJIT_GREATER_EQUAL, Registers::arithmetic_temp1, 0, SLJIT_IMM, jtbl.entries.size() * sizeof(uint32_t));
+     context->switch_error_jumps.emplace_back(SwitchErrorJump{.instr_vram = jtbl.jr_vram, .jtbl_vram = jtbl.vram, .jump = switch_error_jump});
+ 
++    for (size_t entry_index = 0; entry_index < jtbl.entries.size(); entry_index++) {
++        if (jtbl.entries[entry_index] == 0) {
++            sljit_jump* missing_entry_jump = sljit_emit_cmp(
++                compiler, SLJIT_EQUAL, Registers::arithmetic_temp1, 0, SLJIT_IMM, entry_index * sizeof(uint32_t));
++            context->switch_error_jumps.emplace_back(SwitchErrorJump{
++                .instr_vram = jtbl.jr_vram,
++                .jtbl_vram = jtbl.vram,
++                .jump = missing_entry_jump
++            });
++        }
++    }
++
+     // Multiply the jump table addend by 2 to get the addend for the real jump table. (4 bytes per entry to 8 bytes per entry).
+     sljit_emit_op2(compiler, SLJIT_ADD, Registers::arithmetic_temp1, 0, Registers::arithmetic_temp1, 0, Registers::arithmetic_temp1, 0);
+     // Load the real jump table address.
+@@ -1654,6 +1678,13 @@ void N64Recomp::LiveGenerator::emit_case(int case_index, const std::string& targ
+     // Nothing to do here, the jump table is built in emit_switch.
+ }
+ 
++void N64Recomp::LiveGenerator::emit_case_error(int case_index, uint32_t instr_vram, uint32_t jtbl_vram) const {
++    (void)case_index;
++    (void)instr_vram;
++    (void)jtbl_vram;
++    // Missing entries are checked before the live jump-table dispatch in emit_switch.
++}
++
+ void N64Recomp::LiveGenerator::emit_switch_error(uint32_t instr_vram, uint32_t jtbl_vram) const {
+     (void)instr_vram;
+     (void)jtbl_vram;
+@@ -1698,10 +1729,18 @@ void N64Recomp::LiveGenerator::emit_cop0_status_read(int reg) const {
+         sljit_emit_op1(compiler, SLJIT_MOV, SLJIT_R0, 0, Registers::ctx, 0);
+ 
+         // Call cop0_status_read.
+-        sljit_emit_icall(compiler, SLJIT_CALL, SLJIT_ARGS1V(P), SLJIT_IMM, sljit_sw(inputs.cop0_status_read));
++        sljit_emit_icall(compiler, SLJIT_CALL, SLJIT_ARGS1(W, P), SLJIT_IMM, sljit_sw(inputs.cop0_status_read));
+ 
+         // Store the result in the output register.
+-        sljit_emit_op1(compiler, SLJIT_MOV, SLJIT_MEM1(Registers::ctx), get_gpr_context_offset(reg), SLJIT_R0, 0);
++        sljit_emit_op1(compiler, SLJIT_MOV, SLJIT_MEM1(Registers::ctx), get_gpr_context_offset(reg), SLJIT_RETURN_REG, 0);
++    }
++}
++
++void N64Recomp::LiveGenerator::emit_cop0_compare_read(int reg) const {
++    if (reg != 0) {
++        sljit_emit_op1(compiler, SLJIT_MOV, SLJIT_R0, 0, Registers::ctx, 0);
++        sljit_emit_icall(compiler, SLJIT_CALL, SLJIT_ARGS1(W, P), SLJIT_IMM, sljit_sw(inputs.cop0_compare_read));
++        sljit_emit_op1(compiler, SLJIT_MOV, SLJIT_MEM1(Registers::ctx), get_gpr_context_offset(reg), SLJIT_RETURN_REG, 0);
+     }
+ }
+ 
+diff --git a/OfflineModRecomp/main.cpp b/OfflineModRecomp/main.cpp
+index 29e5232..5eee993 100644
+--- a/OfflineModRecomp/main.cpp
++++ b/OfflineModRecomp/main.cpp
+@@ -187,6 +187,10 @@ int main(int argc, const char** argv) {
+     output_file << "// Pointer to the runtime function for performing a cop0 status register read.\n";
+     output_file << "RECOMP_EXPORT gpr (*cop0_status_read)(recomp_context* ctx) = NULL;\n\n";
+ 
++    // Write the cop0_compare_read pointer.
++    output_file << "// Pointer to the runtime function for performing a cop0 compare register read.\n";
++    output_file << "RECOMP_EXPORT gpr (*cop0_compare_read)(recomp_context* ctx) = NULL;\n\n";
++
+     // Write the switch_error pointer.
+     output_file << "// Pointer to the runtime function for reporting switch case errors.\n";
+     output_file << "RECOMP_EXPORT void (*switch_error)(const char* func, uint32_t vram, uint32_t jtbl) = NULL;\n\n";
+diff --git a/RSPRecomp/src/rsp_recomp.cpp b/RSPRecomp/src/rsp_recomp.cpp
+index 518477d..c6ed8f0 100644
+--- a/RSPRecomp/src/rsp_recomp.cpp
++++ b/RSPRecomp/src/rsp_recomp.cpp
+@@ -131,8 +131,6 @@ uint32_t expected_c0_reg_value(int cop0_reg) {
+         return 0; // Pretend DMAs complete instantly
+     case Cop0Reg::RSP_COP0_SP_SEMAPHORE:
+         return 0; // Always acquire the semaphore
+-    case Cop0Reg::RSP_COP0_DPC_STATUS:
+-        return 0; // Good enough for the microcodes that would be recompiled (i.e. non-graphics ones)
+     default:
+         fmt::print(stderr, "Unhandled mfc0: {}\n", cop0_reg);
+         throw std::runtime_error("Unhandled mfc0");
+@@ -395,6 +393,10 @@ bool process_instruction(size_t instr_index, const std::vector<rabbitizer::Instr
+             break;
+         case InstrId::rsp_addi:
+         case InstrId::rsp_addiu:
++            if (rt == 0) {
++                fmt::print(output_file, "\n");
++                break;
++            }
+             print_line("{}{} = RSP_ADD32({}{}, {})", ctx_gpr_prefix(rt), rt, ctx_gpr_prefix(rs), rs, signed_imm_string);
+             break;
+         case InstrId::rsp_and:
+@@ -532,11 +534,29 @@ bool process_instruction(size_t instr_index, const std::vector<rabbitizer::Instr
+             print_line("return RspExitReason::Broke", instr_vram);
+             break;
+         case InstrId::rsp_mfc0:
+-            print_line("{}{} = {}", ctx_gpr_prefix(rt), rt, expected_c0_reg_value(rd));
++            if (static_cast<Cop0Reg>(rd) >= Cop0Reg::RSP_COP0_DPC_START &&
++                static_cast<Cop0Reg>(rd) <= Cop0Reg::RSP_COP0_DPC_CLOCK) {
++                print_line("{}{} = ultramodern::dpc::read_register(rdram, {})",
++                    ctx_gpr_prefix(rt), rt, rd);
++            }
++            else {
++                print_line("{}{} = {}", ctx_gpr_prefix(rt), rt, expected_c0_reg_value(rd));
++            }
+             break;
+         case InstrId::rsp_mtc0:
+             {
+-                std::string_view write_action = c0_reg_write_action(rd);
++                std::string_view write_action{};
++                if (static_cast<Cop0Reg>(rd) >= Cop0Reg::RSP_COP0_DPC_START &&
++                    static_cast<Cop0Reg>(rd) <= Cop0Reg::RSP_COP0_DPC_STATUS) {
++                    if (static_cast<Cop0Reg>(rd) == Cop0Reg::RSP_COP0_DPC_END) {
++                        print_line("ultramodern::dpc::set_dmem(dmem)");
++                    }
++                    print_line("ultramodern::dpc::write_register(rdram, {}, {}{})",
++                        rd, ctx_gpr_prefix(rt), rt);
++                }
++                else {
++                    write_action = c0_reg_write_action(rd);
++                }
+                 if (has_overlays && is_c0_reg_write_dma_read(rd)) {
+                     // DMA read, do overlay swap if reading into IMEM
+                     fmt::print(output_file, 
+@@ -552,8 +572,15 @@ bool process_instruction(size_t instr_index, const std::vector<rabbitizer::Instr
+                 }
+                 break;
+             }
++        case InstrId::rsp_cfc2:
++            print_line("rsp.CFC2({}{}, {})", ctx_gpr_prefix(rt), rt, (int)instr.GetRsp_cop2cd());
++            break;
++        case InstrId::rsp_ctc2:
++            print_line("rsp.CTC2({}{}, {})", ctx_gpr_prefix(rt), rt, (int)instr.GetRsp_cop2cd());
++            break;
+         default:
+-            fmt::print(stderr, "Unhandled instruction: {}\n", instr.getOpcodeName());
++            fmt::print(stderr, "Unhandled instruction {} at 0x{:04X}: {}\n",
++                instr.getOpcodeName(), instr_vram, instr.disassemble(0));
+             assert(false);
+             return false;
+         }
+@@ -1177,6 +1204,7 @@ int main(int argc, const char** argv) {
+     std::ofstream output_file(config.output_file_path);
+     fmt::print(output_file,
+         "#include \"librecomp/rsp.hpp\"\n"
++        "#include \"ultramodern/dpc.hpp\"\n"
+         "#include \"librecomp/rsp_vu_impl.hpp\"\n");
+     
+     // Write function(s)
+diff --git a/include/recomp.h b/include/recomp.h
+index 73f3e73..408f390 100644
+--- a/include/recomp.h
++++ b/include/recomp.h
+@@ -436,6 +436,7 @@ extern "C" {
+ 
+ void cop0_status_write(recomp_context* ctx, gpr value);
+ gpr cop0_status_read(recomp_context* ctx);
++gpr cop0_compare_read(recomp_context* ctx);
+ void switch_error(const char* func, uint32_t vram, uint32_t jtbl);
+ void do_break(uint32_t vram);
+ 
+diff --git a/include/recompiler/generator.h b/include/recompiler/generator.h
+index 145bcd0..1edbe13 100644
+--- a/include/recompiler/generator.h
++++ b/include/recompiler/generator.h
+@@ -46,12 +46,14 @@ namespace N64Recomp {
+         virtual void emit_branch_close() const = 0;
+         virtual void emit_switch(const Context& recompiler_context, const JumpTable& jtbl, int reg) const = 0;
+         virtual void emit_case(int case_index, const std::string& target_label) const = 0;
++        virtual void emit_case_error(int case_index, uint32_t instr_vram, uint32_t jtbl_vram) const = 0;
+         virtual void emit_switch_error(uint32_t instr_vram, uint32_t jtbl_vram) const = 0;
+         virtual void emit_switch_close() const = 0;
+         virtual void emit_return(const Context& context, size_t func_index) const = 0;
+         virtual void emit_check_fr(int fpr) const = 0;
+         virtual void emit_check_nan(int fpr, bool is_double) const = 0;
+         virtual void emit_cop0_status_read(int reg) const = 0;
++        virtual void emit_cop0_compare_read(int reg) const = 0;
+         virtual void emit_cop0_status_write(int reg) const = 0;
+         virtual void emit_cop1_cs_read(int reg) const = 0;
+         virtual void emit_cop1_cs_write(int reg) const = 0;
+@@ -83,12 +85,14 @@ namespace N64Recomp {
+         void emit_branch_close() const final;
+         void emit_switch(const Context& recompiler_context, const JumpTable& jtbl, int reg) const final;
+         void emit_case(int case_index, const std::string& target_label) const final;
++        void emit_case_error(int case_index, uint32_t instr_vram, uint32_t jtbl_vram) const final;
+         void emit_switch_error(uint32_t instr_vram, uint32_t jtbl_vram) const final;
+         void emit_switch_close() const final;
+         void emit_return(const Context& context, size_t func_index) const final;
+         void emit_check_fr(int fpr) const final;
+         void emit_check_nan(int fpr, bool is_double) const final;
+         void emit_cop0_status_read(int reg) const final;
++        void emit_cop0_compare_read(int reg) const final;
+         void emit_cop0_status_write(int reg) const final;
+         void emit_cop1_cs_read(int reg) const final;
+         void emit_cop1_cs_write(int reg) const final;
+diff --git a/include/recompiler/live_recompiler.h b/include/recompiler/live_recompiler.h
+index d155b83..603bc92 100644
+--- a/include/recompiler/live_recompiler.h
++++ b/include/recompiler/live_recompiler.h
+@@ -70,6 +70,7 @@ namespace N64Recomp {
+         uint32_t base_event_index;
+         void (*cop0_status_write)(recomp_context* ctx, gpr value);
+         gpr (*cop0_status_read)(recomp_context* ctx);
++        gpr (*cop0_compare_read)(recomp_context* ctx);
+         void (*switch_error)(const char* func, uint32_t vram, uint32_t jtbl);
+         void (*do_break)(uint32_t vram);
+         recomp_func_t* (*get_function)(int32_t vram);
+@@ -115,12 +116,14 @@ namespace N64Recomp {
+         void emit_branch_close() const final;
+         void emit_switch(const Context& recompiler_context, const JumpTable& jtbl, int reg) const final;
+         void emit_case(int case_index, const std::string& target_label) const final;
++        void emit_case_error(int case_index, uint32_t instr_vram, uint32_t jtbl_vram) const final;
+         void emit_switch_error(uint32_t instr_vram, uint32_t jtbl_vram) const final;
+         void emit_switch_close() const final;
+         void emit_return(const Context& context, size_t func_index) const final;
+         void emit_check_fr(int fpr) const final;
+         void emit_check_nan(int fpr, bool is_double) const final;
+         void emit_cop0_status_read(int reg) const final;
++        void emit_cop0_compare_read(int reg) const final;
+         void emit_cop0_status_write(int reg) const final;
+         void emit_cop1_cs_read(int reg) const final;
+         void emit_cop1_cs_write(int reg) const final;
+diff --git a/src/analysis.cpp b/src/analysis.cpp
+index 9eaaa30..bbb1f9c 100644
+--- a/src/analysis.cpp
++++ b/src/analysis.cpp
+@@ -304,48 +304,108 @@ bool N64Recomp::analyze_function(const N64Recomp::Context& context, const N64Rec
+     });
+ 
+     // Determine jump table sizes
++    auto find_rom_backed_section = [&](uint32_t address) -> std::optional<size_t> {
++        if (func.section_index < context.sections.size()) {
++            const Section& candidate = context.sections[func.section_index];
++            if (candidate.rom_addr != (uint32_t)-1 &&
++                address >= candidate.ram_addr &&
++                address - candidate.ram_addr < candidate.size) {
++                return func.section_index;
++            }
++        }
++
++        for (size_t section_index = 0; section_index < context.sections.size(); section_index++) {
++            const Section& candidate = context.sections[section_index];
++            if (candidate.rom_addr != (uint32_t)-1 &&
++                address >= candidate.ram_addr &&
++                address - candidate.ram_addr < candidate.size) {
++                return section_index;
++            }
++        }
++
++        return std::nullopt;
++    };
++
+     for (size_t i = 0; i < stats.jump_tables.size(); i++) {
+         JumpTable& cur_jtbl = stats.jump_tables[i];
+-        uint32_t end_address = (uint32_t)-1;
+         uint32_t entry_count = 0;
+         uint32_t vram = cur_jtbl.vram;
++        bool has_valid_entry = false;
++        std::optional<size_t> table_section_index = find_rom_backed_section(cur_jtbl.vram);
++
++        if (!table_section_index.has_value()) {
++            if (!section->relocatable) {
++                fmt::print("Could not find ROM-backed section for jump table at 0x{:08X} used by instruction at 0x{:08X}\n",
++                    cur_jtbl.vram, cur_jtbl.jr_vram);
++                return false;
++            }
+ 
+-        if (i < stats.jump_tables.size() - 1) {
+-            end_address = stats.jump_tables[i + 1].vram;
++            fmt::print("[Info] Ignoring unresolved jump-table candidate at 0x{:08X} for indirect call at 0x{:08X} in relocatable section\n",
++                cur_jtbl.vram, cur_jtbl.jr_vram);
++            continue;
+         }
+ 
+-        // TODO this assumes that the jump table is in the same section as the function itself
+-        cur_jtbl.rom = cur_jtbl.vram + func.rom - func.vram;
+-        cur_jtbl.section_index = func.section_index;
++        const Section* table_section = &context.sections[table_section_index.value()];
++        uint32_t end_address = table_section->ram_addr + table_section->size;
++        for (size_t next_index = i + 1; next_index < stats.jump_tables.size(); next_index++) {
++            uint32_t next_vram = stats.jump_tables[next_index].vram;
++            if (find_rom_backed_section(next_vram) == table_section_index) {
++                end_address = std::min(end_address, next_vram);
++                break;
++            }
++        }
++
++        cur_jtbl.rom = table_section->rom_addr + (cur_jtbl.vram - table_section->ram_addr);
++        cur_jtbl.section_index = static_cast<uint16_t>(table_section_index.value());
+ 
+         while (vram < end_address) {
+             // Retrieve the current entry of the jump table
+-            // TODO same as above
+-            uint32_t rom_addr = vram + func.rom - func.vram;
++            uint32_t rom_addr = table_section->rom_addr + (vram - table_section->ram_addr);
++            if (rom_addr > context.rom.size() || context.rom.size() - rom_addr < sizeof(uint32_t)) {
++                break;
++            }
+             uint32_t jtbl_word = byteswap(*reinterpret_cast<const uint32_t*>(&context.rom[rom_addr]));
+ 
++            bool is_null_entry = jtbl_word == 0 && !cur_jtbl.got_offset.has_value();
+             if (cur_jtbl.got_offset.has_value() && got_ram_addr.has_value()) {
+                 // Position independent jump tables have values that are offsets from the GOT,
+                 // convert those to absolute addresses
+                 jtbl_word += got_ram_addr.value();
+             }
+ 
++            // A leading null can be a real hole in the table, rather than its terminator.
++            if (is_null_entry && !has_valid_entry) {
++                cur_jtbl.entries.push_back(0);
++                vram += 4;
++                continue;
++            }
++
+             // Check if the entry is a valid address in the current function
+             if (jtbl_word < func.vram || jtbl_word >= func.vram + func.words.size() * sizeof(func.words[0])) {
+                 // If it's not then this is the end of the jump table
+                 break;
+             }
+             cur_jtbl.entries.push_back(jtbl_word);
++            has_valid_entry = true;
+             vram += 4;
+         }
+ 
+-        if (cur_jtbl.entries.size() == 0) {
+-            fmt::print("Failed to determine size of jump table at 0x{:08X} for instruction at 0x{:08X}\n", cur_jtbl.vram, cur_jtbl.jr_vram);
+-            return false;
++        if (!has_valid_entry) {
++            if (!table_section->relocatable) {
++                fmt::print("Failed to determine size of jump table at 0x{:08X} for instruction at 0x{:08X}\n", cur_jtbl.vram, cur_jtbl.jr_vram);
++                return false;
++            }
++
++            fmt::print("[Info] Ignoring unresolved jump-table candidate at 0x{:08X} for indirect call at 0x{:08X} in relocatable section\n",
++                cur_jtbl.vram, cur_jtbl.jr_vram);
+         }
+ 
+         //fmt::print("Jtbl at 0x{:08X} (rom 0x{:08X}) with {} entries used by instr at 0x{:08X}\n", cur_jtbl.vram, cur_jtbl.rom, cur_jtbl.entries.size(), cur_jtbl.jr_vram);
+     }
+ 
++    std::erase_if(stats.jump_tables, [](const JumpTable& jump_table) {
++        return jump_table.entries.empty();
++    });
++
+     return true;
+ }
+diff --git a/src/cgenerator.cpp b/src/cgenerator.cpp
+index 94f85c5..417acc1 100644
+--- a/src/cgenerator.cpp
++++ b/src/cgenerator.cpp
+@@ -473,6 +473,10 @@ void N64Recomp::CGenerator::emit_case(int case_index, const std::string& target_
+     fmt::print(output_file, "case {}: goto {}; break;\n", case_index, target_label);
+ }
+ 
++void N64Recomp::CGenerator::emit_case_error(int case_index, uint32_t instr_vram, uint32_t jtbl_vram) const {
++    fmt::print(output_file, "case {}: switch_error(__func__, 0x{:08X}, 0x{:08X}); break;\n", case_index, instr_vram, jtbl_vram);
++}
++
+ void N64Recomp::CGenerator::emit_switch_error(uint32_t instr_vram, uint32_t jtbl_vram) const {
+     fmt::print(output_file, "default: switch_error(__func__, 0x{:08X}, 0x{:08X});\n", instr_vram, jtbl_vram);
+ }
+@@ -497,6 +501,10 @@ void N64Recomp::CGenerator::emit_cop0_status_read(int reg) const {
+     fmt::print(output_file, "{} = cop0_status_read(ctx);\n", gpr_to_string(reg));
+ }
+ 
++void N64Recomp::CGenerator::emit_cop0_compare_read(int reg) const {
++    fmt::print(output_file, "{} = cop0_compare_read(ctx);\n", gpr_to_string(reg));
++}
++
+ void N64Recomp::CGenerator::emit_cop0_status_write(int reg) const {
+     fmt::print(output_file, "cop0_status_write(ctx, {});", gpr_to_string(reg));
+ }
+diff --git a/src/recompilation.cpp b/src/recompilation.cpp
+index c228433..9592d48 100644
+--- a/src/recompilation.cpp
++++ b/src/recompilation.cpp
+@@ -423,7 +423,12 @@ bool process_instruction(GeneratorType& generator, const N64Recomp::Context& con
+                 print_indent();
+                 generator.emit_cop0_status_read(rt);
+                 break;
++            case Cop0Reg::COP0_Compare:
++                print_indent();
++                generator.emit_cop0_compare_read(rt);
++                break;
+             default:
++                print_indent();
+                 fmt::print(stderr, "Unhandled cop0 register in mfc0: {}\n", (int)reg);
+                 return false;
+             }
+@@ -438,6 +443,7 @@ bool process_instruction(GeneratorType& generator, const N64Recomp::Context& con
+                 generator.emit_cop0_status_write(rt);
+                 break;
+             default:
++                print_indent();
+                 fmt::print(stderr, "Unhandled cop0 register in mtc0: {}\n", (int)reg);
+                 return false;
+             }
+@@ -543,7 +549,12 @@ bool process_instruction(GeneratorType& generator, const N64Recomp::Context& con
+                 for (size_t entry_index = 0; entry_index < cur_jtbl.entries.size(); entry_index++) {
+                     print_indent();
+                     print_indent();
+-                    generator.emit_case(entry_index, fmt::format("L_{:08X}", cur_jtbl.entries[entry_index]));
++                    if (cur_jtbl.entries[entry_index] == 0) {
++                        generator.emit_case_error(entry_index, instr_vram, cur_jtbl.vram);
++                    }
++                    else {
++                        generator.emit_case(entry_index, fmt::format("L_{:08X}", cur_jtbl.entries[entry_index]));
++                    }
+                 }
+                 print_indent();
+                 print_indent();
+@@ -746,7 +757,8 @@ bool process_instruction(GeneratorType& generator, const N64Recomp::Context& con
+     }
+ 
+     if (!handled) {
+-        fmt::print(stderr, "Unhandled instruction: {}\n", instr.getOpcodeName());
++        fmt::print(stderr, "Unhandled instruction {} in function {} at 0x{:08X}: {}\n",
++            instr.getOpcodeName(), func.name, instr_vram, instr.disassemble(0));
+         return false;
+     }
+ 

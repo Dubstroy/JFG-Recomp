@@ -90,6 +90,27 @@ El ELF original de *Jet Force Gemini* ya ha sido analizado y el proceso de recom
 
 El proyecto también incorpora soporte específico para las estructuras de relocación utilizadas por los overlays de *Jet Force Gemini*, permitiendo que N64Recomp pueda interpretar información que no está representada mediante las relocaciones ELF estándar.
 
+### Ejecutar la recompilación
+
+`config.toml` usa el formato de N64Recomp. Ajusta `input.elf_path` y `input.rom_file_path` a tus copias locales. Los overlays presentes en el ELF deben estar listados en `relocatable_sections.txt`.
+
+```powershell
+git -C N64Recomp apply ..\tools\n64recomp-jfg.patch
+cmake -S N64Recomp -B build/N64Recomp
+cmake --build build/N64Recomp --config Release --target N64RecompCLI
+.\build\N64Recomp\Release\N64Recomp.exe config.toml
+```
+
+La tabla de saltos de `func_80074B50` ya se analiza preservando su entrada nula y su índice. `gen_anim_data` tiene un tamaño de función corregido a `0xFD0` porque el tamaño ELF (`0x468`) truncaba una rama válida a `0x8007475C`; la generación ahora incluye esa etiqueta dentro de la función. `_itoa` se renombra a `_itoa_recomp` para evitar una colisión con la función homónima del CRT de MSVC. Los blobs de microcódigo RSP incluidos en `.text` se excluyen de la recompilación de CPU. `RSPRecomp` genera los archivos de audio, arranque y F3DDKR; el perfil de arranque compila, pero audio y F3DDKR todavía no: sus perfiles actuales exceden el espacio de IMEM disponible y dejan ramas a etiquetas fuera de la imagen generada; falta identificar sus rangos de código/overlays reales. El código generado no es todavía un ejecutable jugable: faltan integrar en el build del juego los cambios del runtime, contar con un backend gráfico que procese los rangos DPC y completar el build nativo.
+
+Los perfiles de `RSPRecomp` están en `rsp/` y esperan la ROM en `rom/JetForceGemini.z64`. El perfil de audio genera código con:
+
+```powershell
+.\build\N64Recomp\Release\RSPRecomp.exe rsp\audio.toml
+```
+
+El generador maneja las lecturas/escrituras COP2 de banderas vectoriales y emite llamadas a `ultramodern::dpc::read_register` / `write_register` para los registros DPC; antes de escribir `DPC_END`, también registra el DMEM para los rangos XBUS. La implementación de esta API y del procesamiento DPC optativo está terminada en una rama separada de `N64ModernRuntime`, con pruebas enfocadas aprobadas, pero todavía no está incorporada en este build. Los backends gráficos no soportan DPC todavía: ninguno activa esa capacidad, por lo que los microcódigos de arranque y F3DDKR no pueden procesar comandos gráficos en este estado. La configuración completa del proyecto también requiere los submódulos `thirdparty/miniz` y `N64Recomp`, ausentes en algunos checkouts. No se deben reemplazar accesos DPC por valores ficticios.
+
 ---
 
 ## ⚖️ Nota Legal
