@@ -1,6 +1,7 @@
 /rom/
 /src/
 /build/
+config.local.toml
 N64Recomp-JFG/
 *.z64
 *.v64

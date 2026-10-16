@@ -1,0 +1,6 @@
+text_offset = 0x9FFD0
+text_size = 0x1290
+text_address = 0x04001080
+rom_file_path = "../rom/JetForceGemini.z64"
+output_file_path = "../build/generated-rsp/ucode_f3ddkr.cpp"
+output_function_name = "jfg_rsp_f3ddkr"

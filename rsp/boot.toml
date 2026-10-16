@@ -1,0 +1,6 @@
+text_offset = 0x9FE50
+text_size = 0x180
+text_address = 0x04001000
+rom_file_path = "../rom/JetForceGemini.z64"
+output_file_path = "../build/generated-rsp/ucode_boot.cpp"
+output_function_name = "jfg_rsp_boot"
