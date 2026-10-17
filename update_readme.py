@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-from datetime import date
 
 ROOT = Path(__file__).resolve().parent
 PROGRESS_FILE = ROOT / "progress.json"
@@ -10,10 +9,24 @@ START_MARKER = "<!-- PROGRESS:START -->"
 END_MARKER = "<!-- PROGRESS:END -->"
 
 
-def make_progress_bar(value, width=20):
-    value = max(0.0, min(100.0, value))
-    filled = round((value / 100) * width)
-    return "■" * filled + "□" * (width - filled)
+def render_progress(data):
+    project = data["project"]
+    rows = [
+        "| Área | Estado | Detalle |",
+        "|---|---|---|",
+    ]
+    for milestone in data["milestones"]:
+        details = milestone["details"].replace("|", "\\|")
+        rows.append(
+            f"| {milestone['name']} | **{milestone['status']}** | {details} |"
+        )
+
+    return (
+        "## 📊 Estado del Proyecto\n\n"
+        f"**Estado general:** 🟡 `{project['status']}`\n\n"
+        + "\n".join(rows)
+        + f"\n\n**Última actualización:** `{project['last_update']}`\n"
+    )
 
 
 def main():
@@ -25,130 +38,35 @@ def main():
         print(f"ERROR: {README_FILE} not found")
         return 1
 
-    with PROGRESS_FILE.open("r", encoding="utf-8") as f:
-        data = json.load(f)
+    with PROGRESS_FILE.open("r", encoding="utf-8") as progress_file:
+        data = json.load(progress_file)
 
-    with README_FILE.open("r", encoding="utf-8") as f:
-        readme = f.read()
+    with README_FILE.open("r", encoding="utf-8") as readme_file:
+        readme = readme_file.read()
 
-    if START_MARKER not in readme:
-        print("ERROR: PROGRESS:START marker not found")
+    if START_MARKER not in readme or END_MARKER not in readme:
+        print("ERROR: progress markers not found")
         return 1
 
-    if END_MARKER not in readme:
-        print("ERROR: PROGRESS:END marker not found")
+    start = readme.index(START_MARKER)
+    end = readme.index(END_MARKER)
+    if start >= end:
+        print("ERROR: progress markers are in the wrong order")
         return 1
 
-    start_marker_pos = readme.index(START_MARKER)
-    end_marker_pos = readme.index(END_MARKER)
-
-    if start_marker_pos >= end_marker_pos:
-        print("ERROR: Progress markers are in the wrong order")
-        return 1
-
-    project = data["project"]
-    functions = data["functions"]
-    jump_tables = data["jump_tables"]
-    relocations = data["relocations"]
-    components = data["components"]
-
-    status = project["status"]
-
-    functions_total = int(functions["total"])
-    functions_analyzed = int(functions["analyzed"])
-    functions_successful = int(functions["successful"])
-    functions_errors = int(functions["errors"])
-
-    jump_detected = int(jump_tables["detected"])
-    jump_resolved = int(jump_tables["resolved"])
-
-    reloc_total = int(relocations["total"])
-    reloc_resolved = int(relocations["resolved"])
-
-    function_progress = (
-        functions_analyzed / functions_total * 100
-        if functions_total
-        else 0
-    )
-
-    successful_progress = (
-        functions_successful / functions_total * 100
-        if functions_total
-        else 0
-    )
-
-    jump_progress = (
-        jump_resolved / jump_detected * 100
-        if jump_detected
-        else 0
-    )
-
-    reloc_progress = (
-        reloc_resolved / reloc_total * 100
-        if reloc_total
-        else 0
-    )
-
-    today = date.today().isoformat()
-
-    progress_section = (
-        "## 📊 Progreso del Proyecto\n\n"
-        f"**Estado:** 🟡 `{status}`\n\n"
-        "| Área | Progreso |\n"
-        "|---|---:|\n"
-        f"| Análisis de funciones | **{function_progress:.2f}%** |\n"
-        f"| Funciones exitosas | **{successful_progress:.2f}%** |\n"
-        f"| Jump Tables | **{jump_progress:.2f}%** |\n"
-        f"| Relocations | **{reloc_progress:.2f}%** |\n\n"
-        "### Progreso visual\n\n"
-        "```text\n"
-        f"Funciones analizadas [{make_progress_bar(function_progress)}] {function_progress:.2f}%\n"
-        f"Funciones exitosas   [{make_progress_bar(successful_progress)}] {successful_progress:.2f}%\n"
-        f"Jump Tables          [{make_progress_bar(jump_progress)}] {jump_progress:.2f}%\n"
-        f"Relocations          [{make_progress_bar(reloc_progress)}] {reloc_progress:.2f}%\n"
-        "```\n\n"
-        "### Funciones\n\n"
-        f"- **Total:** {functions_total:,}\n"
-        f"- **Analizadas:** {functions_analyzed:,}\n"
-        f"- **Exitosas:** {functions_successful:,}\n"
-        f"- **Errores:** {functions_errors:,}\n\n"
-        "### Jump Tables\n\n"
-        f"- **Detectadas:** {jump_detected:,}\n"
-        f"- **Resueltas:** {jump_resolved:,}\n\n"
-        "### Relocations\n\n"
-        f"- **Total:** {reloc_total:,}\n"
-        f"- **Resueltas:** {reloc_resolved:,}\n\n"
-        "### Componentes\n\n"
-        "| Componente | Progreso |\n"
-        "|---|---:|\n"
-        f"| ELF Analysis | **{float(components['elf_analysis']):.2f}%** |\n"
-        f"| MIPS Analysis | **{float(components['mips_analysis']):.2f}%** |\n"
-        f"| C Generation | **{float(components['c_generation']):.2f}%** |\n"
-        f"| Native Build | **{float(components['native_build']):.2f}%** |\n"
-        f"| Runtime | **{float(components['runtime']):.2f}%** |\n\n"
-        f"**Última actualización:** `{today}`\n"
-    )
-
-    start = start_marker_pos + len(START_MARKER)
-
+    content_start = start + len(START_MARKER)
     new_readme = (
-        readme[:start]
+        readme[:content_start]
         + "\n\n"
-        + progress_section
+        + render_progress(data)
         + "\n"
-        + readme[end_marker_pos:]
+        + readme[end:]
     )
 
-    with README_FILE.open("w", encoding="utf-8", newline="\n") as f:
-        f.write(new_readme)
+    with README_FILE.open("w", encoding="utf-8", newline="\n") as readme_file:
+        readme_file.write(new_readme)
 
     print("README.md updated successfully.")
-    print(f"Status: {status}")
-    print(f"Functions: {functions_analyzed}/{functions_total}")
-    print(f"Successful: {functions_successful}/{functions_total}")
-    print(f"Jump Tables: {jump_resolved}/{jump_detected}")
-    print(f"Relocations: {reloc_resolved}/{reloc_total}")
-
     return 0
 
 

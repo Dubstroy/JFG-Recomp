@@ -7,54 +7,20 @@ El objetivo principal es lograr que el juego se ejecute de forma nativa en siste
 ---
 <!-- PROGRESS:START -->
 
-## 📊 Progreso del Proyecto
+## 📊 Estado del Proyecto
 
-**Estado:** 🟡 `IN DEVELOPMENT`
+**Estado general:** 🟡 `IN DEVELOPMENT`
 
-| Área | Progreso |
-|---|---:|
-| Análisis de funciones | **10.14%** |
-| Funciones exitosas | **10.13%** |
-| Jump Tables | **98.18%** |
-| Relocations | **0.00%** |
+| Área | Estado | Detalle |
+|---|---|---|
+| Recompilación CPU | **VALIDADO** | Código generado para 11,253 funciones y compilado como biblioteca estática contra el runtime fijado. |
+| Microcódigo RSP de arranque | **VALIDADO** | La salida generada compila. |
+| Microcódigo RSP de audio | **VALIDADO** | La imagen base y el overlay se describen a partir de los descriptores DMEM del juego; la salida generada compila contra los headers del runtime. |
+| Microcódigo RSP F3DDKR | **EN PROGRESO** | Los descriptores DMEM identifican varios rangos de código y overlays que el perfil aún no representa correctamente. |
+| Integración de DPC y RT64 | **EN RAMA SEPARADA** | La API DPC del runtime y el consumidor RT64 se compilaron en ramas separadas; aún no están integrados al inicio del juego en este repositorio. |
+| Build nativo jugable | **NO DISPONIBLE** | Todavía no hay un ejecutable integrado ni un arranque verificado del juego. |
 
-### Progreso visual
-
-```text
-Funciones analizadas [■■□□□□□□□□□□□□□□□□□□] 10.14%
-Funciones exitosas   [■■□□□□□□□□□□□□□□□□□□] 10.13%
-Jump Tables          [■■■■■■■■■■■■■■■■■■■■] 98.18%
-Relocations          [□□□□□□□□□□□□□□□□□□□□] 0.00%
-```
-
-### Funciones
-
-- **Total:** 11,253
-- **Analizadas:** 1,141
-- **Exitosas:** 1,140
-- **Errores:** 1
-
-### Jump Tables
-
-- **Detectadas:** 55
-- **Resueltas:** 54
-
-### Relocations
-
-- **Total:** 0
-- **Resueltas:** 0
-
-### Componentes
-
-| Componente | Progreso |
-|---|---:|
-| ELF Analysis | **100.00%** |
-| MIPS Analysis | **0.00%** |
-| C Generation | **0.00%** |
-| Native Build | **0.00%** |
-| Runtime | **0.00%** |
-
-**Última actualización:** `2026-10-16`
+**Última actualización:** `2026-10-17`
 
 <!-- PROGRESS:END -->
 
@@ -63,7 +29,7 @@ Relocations          [□□□□□□□□□□□□□□□□□□□�
 Este repositorio se apoya fuertemente en las herramientas desarrolladas por la comunidad de preservación:
 
 * **[N64Recomp](https://github.com/N64Recomp/N64Recomp):** Herramienta central para la traducción estática de binarios MIPS a código nativo en C++.
-* **RT64:** Renderizador moderno utilizado de fondo para traducir los gráficos originales a APIs modernas como DirectX 12 y Vulkan.
+* **RT64:** Renderizador existente que se está evaluando como consumidor de DPC; todavía no forma parte de un ejecutable integrado de este proyecto.
 * **MIPS / MIPS III:** Arquitectura utilizada por el hardware original de Nintendo 64.
 * **C/C++:** Lenguajes utilizados durante la generación y compilación del código recompilado.
 * **Python:** Utilizado para automatización, procesamiento de datos y seguimiento del progreso.
@@ -72,23 +38,20 @@ Este repositorio se apoya fuertemente en las herramientas desarrolladas por la c
 
 ## 📂 Estructura del Proyecto
 
-* `/N64Recomp`: Submódulo con las herramientas de recompilación.
-* `/src`: Código fuente en C++ generado automáticamente y parches manuales.
-* `/patches`: Configuraciones específicas para solucionar errores lógicos del juego.
-* `/rom`: Carpeta local para colocar la ROM legal (excluida de Git por razones legales).
-* `/progress.json`: Estado y métricas del progreso del proyecto.
-* `/update_progress.py`: Script utilizado para actualizar las métricas del proyecto.
-* `/N64Recomp/progress_stats.json`: Estadísticas generadas directamente durante el análisis de N64Recomp.
+* `/N64Recomp`: Submódulo con N64Recomp y RSPRecomp; `tools/n64recomp-jfg.patch` contiene los cambios específicos del generador.
+* `/rsp`: Perfiles de recompilación de los microcódigos de audio, arranque y F3DDKR.
+* `/tools`: Scripts de análisis y el parche reproducible para N64Recomp.
+* `/rom`: Ubicación local esperada para la ROM legal (excluida de Git).
+* `/build` y `/src`: Salidas locales de compilación y código generado (excluidas de Git).
+* `/progress.json`: Estado por hitos; `update_progress.py` actualiza la fecha y `update_readme.py` refleja esos datos en este README.
 
 ---
 
 ## 🧪 Estado Técnico
 
-El proyecto se encuentra actualmente en la fase de **análisis y recompilación del binario original**.
+El proyecto ya superó la etapa de análisis inicial: N64Recomp generó código para 11,253 funciones y ese código CPU se compiló como biblioteca estática contra el runtime fijado. Las salidas generadas y los archivos del juego son artefactos locales y no se distribuyen en este repositorio.
 
-El ELF original de *Jet Force Gemini* ya ha sido analizado y el proceso de recompilación está avanzando mediante el procesamiento individual de sus funciones MIPS.
-
-El proyecto también incorpora soporte específico para las estructuras de relocación utilizadas por los overlays de *Jet Force Gemini*, permitiendo que N64Recomp pueda interpretar información que no está representada mediante las relocaciones ELF estándar.
+El generador también incluye soporte específico para las estructuras de relocación de overlays de *Jet Force Gemini*, que no están representadas por relocaciones ELF estándar.
 
 ### Ejecutar la recompilación
 
@@ -101,7 +64,11 @@ cmake --build build/N64Recomp --config Release --target N64RecompCLI
 .\build\N64Recomp\Release\N64Recomp.exe config.toml
 ```
 
-La tabla de saltos de `func_80074B50` ya se analiza preservando su entrada nula y su índice. `gen_anim_data` tiene un tamaño de función corregido a `0xFD0` porque el tamaño ELF (`0x468`) truncaba una rama válida a `0x8007475C`; la generación ahora incluye esa etiqueta dentro de la función. `_itoa` se renombra a `_itoa_recomp` para evitar una colisión con la función homónima del CRT de MSVC. Los blobs de microcódigo RSP incluidos en `.text` se excluyen de la recompilación de CPU. `RSPRecomp` genera los archivos de audio, arranque y F3DDKR; el perfil de arranque compila, pero audio y F3DDKR todavía no: sus perfiles actuales exceden el espacio de IMEM disponible y dejan ramas a etiquetas fuera de la imagen generada; falta identificar sus rangos de código/overlays reales. El código generado no es todavía un ejecutable jugable: faltan integrar en el build del juego los cambios del runtime, contar con un backend gráfico que procese los rangos DPC y completar el build nativo.
+La tabla de saltos de `func_80074B50` preserva su entrada nula y su índice. El tamaño de `gen_anim_data` está corregido a `0xFD0` para incluir una rama válida que el tamaño ELF (`0x468`) truncaba; `_itoa` se renombra para evitar una colisión con el CRT de MSVC. Los blobs RSP se excluyen de la recompilación CPU.
+
+El perfil de arranque genera código que compila. El perfil de audio refleja la imagen base (`0xF80` bytes), el overlay (`0x8B8` bytes en `0x1238`) y los destinos indirectos descritos por los datos DMEM del juego; la salida también compila contra los headers del runtime fijado. Estos microcódigos han sido validados al generar/compilar, pero no se han probado en ejecución. F3DDKR sigue en investigación: sus datos DMEM describen varios rangos y overlays que aún no están representados fielmente en el perfil.
+
+**No hay todavía un ejecutable jugable ni un arranque del juego verificado.** La API DPC del runtime y el consumidor RT64 LLE se compilaron en ramas de trabajo separadas, pero no están integrados aquí con el inicio del juego. El trabajo pendiente incluye completar el perfil F3DDKR, integrar el runtime y el adaptador en el ciclo de vida del juego, y verificar el procesamiento gráfico/DPC de extremo a extremo.
 
 Los perfiles de `RSPRecomp` están en `rsp/` y esperan la ROM en `rom/JetForceGemini.z64`. El perfil de audio genera código con:
 
@@ -109,7 +76,7 @@ Los perfiles de `RSPRecomp` están en `rsp/` y esperan la ROM en `rom/JetForceGe
 .\build\N64Recomp\Release\RSPRecomp.exe rsp\audio.toml
 ```
 
-El generador maneja las lecturas/escrituras COP2 de banderas vectoriales y emite llamadas a `ultramodern::dpc::read_register` / `write_register` para los registros DPC; antes de escribir `DPC_END`, también registra el DMEM para los rangos XBUS. La implementación de esta API y del procesamiento DPC optativo está terminada en una rama separada de `N64ModernRuntime`, con pruebas enfocadas aprobadas, pero todavía no está incorporada en este build. Los backends gráficos no soportan DPC todavía: ninguno activa esa capacidad, por lo que los microcódigos de arranque y F3DDKR no pueden procesar comandos gráficos en este estado. La configuración completa del proyecto también requiere los submódulos `thirdparty/miniz` y `N64Recomp`, ausentes en algunos checkouts. No se deben reemplazar accesos DPC por valores ficticios.
+El generador maneja las lecturas/escrituras COP2 de banderas vectoriales y emite llamadas a `ultramodern::dpc::read_register` / `write_register` para los registros DPC; antes de escribir `DPC_END`, registra el DMEM para los rangos XBUS. El soporte de runtime/backend desarrollado aparte no implica que el juego arranque: la integración y validación de extremo a extremo siguen pendientes. No se deben reemplazar accesos DPC por valores ficticios.
 
 ---
 

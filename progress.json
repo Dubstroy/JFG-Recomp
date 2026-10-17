@@ -1,34 +1,38 @@
 {
     "project": {
         "status": "IN DEVELOPMENT",
-        "last_update": "2026-10-16"
+        "last_update": "2026-10-17"
     },
-    "decompilation": {
-        "progress": 15.6
-    },
-    "functions": {
-        "total": 11253,
-        "analyzed": 1141,
-        "successful": 1140,
-        "errors": 1,
-        "analysis_progress": 10.14,
-        "success_progress": 10.13
-    },
-    "jump_tables": {
-        "detected": 55,
-        "resolved": 54,
-        "progress": 98.18
-    },
-    "relocations": {
-        "total": 0,
-        "resolved": 0,
-        "progress": 0.0
-    },
-    "components": {
-        "elf_analysis": 100,
-        "mips_analysis": 0,
-        "c_generation": 0,
-        "native_build": 0,
-        "runtime": 0
-    }
+    "milestones": [
+        {
+            "name": "Recompilación CPU",
+            "status": "VALIDADO",
+            "details": "Código generado para 11,253 funciones y compilado como biblioteca estática contra el runtime fijado."
+        },
+        {
+            "name": "Microcódigo RSP de arranque",
+            "status": "VALIDADO",
+            "details": "La salida generada compila."
+        },
+        {
+            "name": "Microcódigo RSP de audio",
+            "status": "VALIDADO",
+            "details": "La imagen base y el overlay se describen a partir de los descriptores DMEM del juego; la salida generada compila contra los headers del runtime."
+        },
+        {
+            "name": "Microcódigo RSP F3DDKR",
+            "status": "EN PROGRESO",
+            "details": "Los descriptores DMEM identifican varios rangos de código y overlays que el perfil aún no representa correctamente."
+        },
+        {
+            "name": "Integración de DPC y RT64",
+            "status": "EN RAMA SEPARADA",
+            "details": "La API DPC del runtime y el consumidor RT64 se compilaron en ramas separadas; aún no están integrados al inicio del juego en este repositorio."
+        },
+        {
+            "name": "Build nativo jugable",
+            "status": "NO DISPONIBLE",
+            "details": "Todavía no hay un ejecutable integrado ni un arranque verificado del juego."
+        }
+    ]
 }
